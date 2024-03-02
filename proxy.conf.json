@@ -1,0 +1,14 @@
+{
+  "/api/chart/*": {
+    "target": "http://localhost:8882",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/portal/*": {
+    "target": "http://localhost:8022",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

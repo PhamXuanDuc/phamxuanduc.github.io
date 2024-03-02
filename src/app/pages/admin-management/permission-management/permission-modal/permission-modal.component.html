@@ -1,0 +1,51 @@
+<div class="modal-header align-middle">
+  <h4 id="modal-title">{{title}} Permission</h4>
+  <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <form [formGroup]="form" id="form-1">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Action <span class="text-danger">*</span></label>
+        <div class="">
+          <ng-select [placeholder]="'Select'" formControlName="action">
+            <ng-option value="add">Add</ng-option>
+            <ng-option value="edit">Edit</ng-option>
+            <ng-option value="delete">Delete</ng-option>
+            <ng-option value="view">View</ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">Role name<span class="text-danger">*</span></label>
+        <ng-select formControlName="roleCode" placeholder="" type="text" [items]="listRole" bindValue="code"
+          bindLabel="name"></ng-select>
+      </div>
+      <div class="col-sm-12 col-md-12 form-group">
+        <label class="pt-1">Menu Name <span class="text-danger">*</span></label>
+        <ng-select formControlName="menuCode" placeholder="" type="text" [items]="listCate" bindValue="code"
+          bindLabel="name"></ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <div class="form-check">
+          <input class="form-check-input" formControlName="status" id="gridCheck" type="checkbox">
+          <label class="form-check-label" for="gridCheck">
+            Active
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss('Cross click')" class="btn btn-secondary" data-dismiss="modal" type="button">
+    <i class="fas fa-times mr-1"></i>Cancel
+  </button>
+  <button (click)="submit()" appDebounceClick class="btn btn-primary" type="button">
+    <i class="fas fa-check mr-1"></i>Save
+  </button>
+</div>

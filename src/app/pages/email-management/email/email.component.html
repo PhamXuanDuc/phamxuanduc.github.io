@@ -1,0 +1,168 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+    <div class="row">
+        <div class="col-3">
+            <div class="card-box">
+                <div class="text-center">
+                    <button routerLink="/email-management/email-compose" 
+                    class="btn btn-primary btn-lg" style="width: 100%;">
+                    <i class="remixicon-pencil-line"></i> Soạn thư</button>
+                </div>
+                <div class="list-group mt-4">
+                    <a  (click)="getEmailList()" routerLink="/email-management/email" class="list-group-item border-0 text-danger font-weight-bold">
+                        <i class="mdi mdi-inbox font-18 align-middle mr-2"></i>Hộp thư đến</a>
+                    <a  (click)="mailSent()" routerLink="/email-management/email" class="list-group-item border-0 text-primary font-weight-bold">
+                      <i class="mdi mdi-send font-18 align-middle mr-2"></i>Đã gửi</a>
+                    <a (click)="trash()" href="javascript: void(0);" class="list-group-item border-0"><i
+                            class="mdi mdi-delete font-18 align-middle mr-2"></i>Thùng rác</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            
+            <div class="card-box">
+                <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+                    <legend>
+                      <a href="javascript: void(0);" (click)="isCollapsed = !isCollapsed">{{'PORTAL.searchInformation' | translate}}
+                        <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+                      </a>
+                    </legend>
+                    <div *ngIf="isCollapsed">
+                      <div class="row mb-2">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                          <label class="col-form-label form-control-label font-weight-bolder">
+                           Tiêu đề Email
+                          </label>
+                          <div class="mt-1">
+                            <input type="text" class="form-control" placeholder="Nhập tiêu đề Email"
+                              [(ngModel)]="subject" (keyup.enter)="getEmailList()">
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                Người gửi
+                            </label>
+                            <div class="mt-1">
+                              <ng-select [placeholder]="'Select'" [items]="listUser" bindValue="id" bindLabel="fullName"
+                                [(ngModel)]="fromUserId" (change)="getEmailList()">
+                              </ng-select>
+                            </div>
+                          </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                          <label class="col-form-label form-control-label font-weight-bolder">
+                            {{'PORTAL.status' | translate}}
+                          </label>
+                          <div class="mt-1">
+                            <ng-select [placeholder]="'Select'" [items]="listStatus" bindValue="code" bindLabel="name"
+                              [(ngModel)]="isRead" (change)="getEmailList()">
+                            </ng-select>
+                          </div>
+                        </div>
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                Từ ngày
+                            </label>
+                            <div class="mt-1">
+                                <div class="input-group">
+                                    <input #timeFrom="ngbDatepicker" autoClose="false" class="form-control"
+                                        ngbDatepicker formControlName="fromDate"
+                                        readonly placeholder="dd/mm/yyyy" autoClose="false">
+                                    <div (click)="timeFrom.toggle()" class="input-group-append">
+                                        <span class="input-group-text"><i
+                                                class="m-cursor far fa-calendar-alt fa-lg text-primary"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                Đến ngày
+                            </label>
+                            <div class="mt-1">
+                                <div class="input-group">
+                                    <input #timeTo="ngbDatepicker" class="form-control" readonly
+                                        ngbDatepicker placeholder="dd/mm/yyyy" formControlName="toDate" autoClose="false"
+                                        >
+                                    <div (click)="timeTo.toggle()" class="input-group-append">
+                                        <span class="input-group-text"><i
+                                                class="m-cursor far fa-calendar-alt fa-lg text-primary"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                      </div>
+                      <div class="row">
+                        <div class="col-6 text-left">
+                          <div class="dropdown menu-group mt-1" ngbDropdown>
+                            <button class="btn btn-success dropdown-toggle" type="button" ngbDropdownToggle id="profileDropdown" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                              {{'PORTAL.action' | translate}}
+                            </button>
+                        
+                          </div>
+            
+                          <div class="menu-group-pc">
+                            <!-- <button type="button" class="btn btn-primary mt-1 mr-1" (click)="openCreateModal(null)">
+                              <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                            </button> -->
+                          </div>
+                        </div>
+                        <div class="col-6 text-right">
+                          <button type="button" class="btn btn-secondary mr-1 mt-1" (click)="refresh()">
+                            <i class="fas fa-undo-alt mr-1"></i><span class="text-button">{{'PORTAL.refresh' | translate}}</span>
+                          </button>
+                          <button type="button" class="btn btn-primary mt-1" (click)="getEmailList()">
+                            <i class="fas fa-search mr-1"></i><span class="text-button">{{'PORTAL.search' | translate}}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <hr>
+                <div class="mt-1">
+                    <div class="table">
+                        <app-ui-preloader [display]="loading"></app-ui-preloader>
+                        <table class="table table-xl table-hover m-w-tabble">
+                          <tbody>
+                            <tr *ngIf="!listEmail || listEmail.length <= 0">
+                              <td class="text-center align-middle" colspan="5">{{'PORTAL.no_data' | translate}}</td>
+                            </tr>
+
+                            <tr  [ngClass]="{ 'font-weight-bold': (item?.isRead != 't')}" 
+                                *ngFor="let item of listEmail; let i = index"
+                                (click)="openCreateModal(item)">
+                              <td class="align-middle w-30">{{item?.toUserId | getLabelByIdInArray: listUser: 'id': 'fullName'}}</td>
+                              <td class="align-middle w-50">{{item?.subject}}</td>
+                              <td class="align-middle text-right w-20">{{item?.createDate | date:'medium'}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-between align-items-md-center mt-2" *ngIf="listEmail && listEmail.length > 0">
+              <div class="col-sm-12 col-md-2 col-lg-1">
+                  <ng-select [clearable]="false" (change)="changeLimit($event)" [items]="pageSizes"
+                      [(ngModel)]="pageSize"></ng-select>
+              </div>
+              <div class="col-sm-6 col-md-4 col-lg-5 text-right">
+                  <span class="mb-2" id="tickets-table_info">
+                      {{'PORTAL.hien_thi' | translate}} {{ totalRecord === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+                      - {{ pageNumber * pageSize }} {{'PORTAL.tren' | translate}} {{ totalRecord }}
+                  </span>
+              </div>
+              <!-- Pagination -->
+              <div class="col-sm-12 col-md-6 col-lg-6">
+                  <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecord"
+                      [pageSize]="pageSize" [page]="pageNumber" [maxSize]="5" (pageChange)="onPageChange($event)">
+                  </ngb-pagination>
+              </div>
+              <!-- End Pagination -->
+          </div>
+        </div>
+        <!-- Right Sidebar -->
+ 
+    </div><!-- End row -->
+    
+</div>

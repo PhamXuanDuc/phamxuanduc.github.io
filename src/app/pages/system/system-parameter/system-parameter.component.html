@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+    <div class="row">
+        <div class="col-12 card-box">
+            <h4>{{'SYSTEM.system_parameter' | translate}}</h4>
+            <hr>
+            <br>
+            <div class="" *ngFor="let item of listSystemParameter">
+                    <div class="row mt-2">
+                        <div class="col-4 mt-1" >
+                            <span>{{language=='vi'?item?.name:item?.nameEn}}</span>
+                        </div>
+                        <div class="col-5">
+                            <input [disabled]="item?.disabled?true:false" [(ngModel)]="item.value"  class="form-control text-right" type="text"  />
+                        </div>
+                        <div class="col-3 text-center">
+                            <!-- {{item?.disbale}} -->
+                            <button (click)="edit(item)" (click)="item.disabled = item.disabled ? false:true" class="btn btn-success mr-1">{{item?.disabled ? ('button.dieu_chinh' | translate) :('button.xac_nhan' | translate)}}</button>
+                            <button *ngIf="!item.disabled" (click)="item.disabled = item.disabled ? false:true" class="btn btn-danger">{{'button.huy' | translate}}</button>
+
+                            <!-- <button (click)="edit(item)" class="btn btn-warning">{{item?.disabled ? 'Sửa':'Cập nhật'}}</button> -->
+                        </div>
+                    </div>
+                
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>

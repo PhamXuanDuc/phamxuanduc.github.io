@@ -1,0 +1,185 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+    <div class="row">
+        <app-ui-preloader [display]="loading"></app-ui-preloader>
+        <div class="col-12 card-box">
+            <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+                <legend>
+                    <a (click)="isCollapsed = !isCollapsed" href="javascript: void(0);">{{'PORTAL.searchInformation' |
+                        translate}}
+                        <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+                    </a>
+                </legend>
+                <div *ngIf="isCollapsed">
+
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'PORTAL.user_code' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <input class="form-control" [(ngModel)]="userCode"
+                                    placeholder="{{'PORTAL.search' | translate}}..." type="text"
+                                    (keyup.enter)="search()">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'PORTAL.full_name' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <input class="form-control" [(ngModel)]="userName"
+                                    placeholder="{{'PORTAL.search' | translate}}..." type="text"
+                                    (keyup.enter)="search()">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'PORTAL.department' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <ng-select [items]="departmentList" [placeholder]="'Select'"
+                                    [bindLabel]="this.currenLang==='vi'?'name':'nameEn' " bindValue="code"
+                                    [(ngModel)]="departmentCode" (change)="search()">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'PORTAL.status' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <ng-select [placeholder]="'Select'" [(ngModel)]="status" (change)="search()">
+                                    <ng-option [value]="-1">{{'PORTAL.all' | translate}}</ng-option>
+                                    <ng-option [value]="1">{{'PORTAL.active' | translate}}</ng-option>
+                                    <ng-option [value]="0">{{'PORTAL.inactive' | translate}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            <div class="dropdown menu-group mt-1" ngbDropdown>
+                                <button class="btn btn-success dropdown-toggle" type="button" ngbDropdownToggle
+                                    id="profileDropdown" data-toggle="dropdown" aria-haspopup="false"
+                                    aria-expanded="false">
+                                    Hành động
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown" ngbDropdownMenu>
+                                    <a href="javascript:void(0);" class="item-menu text-primary" (click)="export()">
+                                        <i class="fas fa-cloud-download-alt mr-1"></i>{{'PORTAL.export' | translate}}
+                                    </a>
+                                    <a href="javascript:void(0);" class="item-menu text-primary" (click)="openCreateModal(null)">
+                                        <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="menu-group-pc">
+                                <button (click)="export()" class="btn btn-primary mr-1 mt-1" type="button">
+                                    <i class="fas fa-cloud-download-alt mr-1"></i>
+                                    {{'PORTAL.export' | translate}}
+                                </button>
+                                <button (click)="openCreateModal(null)" class="btn btn-primary mt-1 mr-1" type="button">
+                                    <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-6 text-right">
+
+                            <button (click)="reset()" class="btn btn-secondary mr-1 mt-1" type="button">
+                                <i class="fas fa-undo-alt mr-1"></i><span class="text-button">{{'PORTAL.refresh' |
+                                    translate}}</span>
+                            </button>
+                            <button (click)="search()" class="btn btn-primary mt-1" type="button">
+                                <i class="fas fa-search mr-1"><span class="text-button"></span></i><span
+                                    class="text-button">{{'PORTAL.search' | translate}}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="col-12 border-bottom-dotted pb-0 p-0 mb-2 mt-3">
+                <span class="font-weight-medium theme-color">{{'PORTAL.user_list' | translate}}</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-hover m-w-tabble">
+                    <thead>
+                        <tr class="m-header-table">
+                            <th class="text-center align-middle">{{'PORTAL.stt' | translate}}</th>
+                            <th class="text-center align-middle mw-200">{{'PORTAL.user_code' | translate}}</th>
+                            <th class="text-center align-middle mw-200">{{'PORTAL.full_name' | translate}}</th>
+                            <th class="text-center align-middle mw-100">{{'PORTAL.birthday' | translate}}</th>
+                            <th class="text-center align-middle mw-100">{{'PORTAL.phone_no' | translate}}</th>
+                            <th class="text-center align-middle mw-200">{{'PORTAL.email' | translate}}</th>
+                            <th class="text-center align-middle mw-200">{{'PORTAL.department' | translate}}</th>
+                            <th class="text-center align-middle mw-100">{{'PORTAL.role' | translate}}</th>
+                            <th class="text-center align-middle mw-100">{{'PORTAL.status' | translate}}</th>
+                            <th class="text-center align-middle mw-100">{{'PORTAL.action' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="!userList || userList.length <= 0">
+                            <td class="text-center align-middle" colspan="9">{{'PORTAL.no_data' | translate}}</td>
+                        </tr>
+                        <tr *ngFor="let item of userList; let i = index">
+                            <td class="align-middle text-center">{{(pageSize * (pageNumber - 1) + i) + 1}}</td>
+                            <td class="align-middle">
+                                <ngb-highlight [result]="item?.code" [term]="userCode"></ngb-highlight>
+                            </td>
+                            <td class="align-middle">
+                                <ngb-highlight [result]="item?.fullName" [term]="userName"></ngb-highlight>
+                            </td>
+                            <td class="align-middle text-center">{{item?.birthday | date: 'dd/MM/yyyy'}}</td>
+                            <td class="align-middle">{{item?.phoneNo}}</td>
+                            <td class="align-middle">{{item?.email}}</td>
+                            <td class="align-middle">{{item?.departmentCode | getLabelByIdInArray: departmentList:
+                                'code': 'name'}}</td>
+                            <td class="align-middle text-center">
+                                {{item?.roleCode}}
+                            </td>
+                            <td class="align-middle text-center">
+                                <i [ngClass]="{'green': item?.status}" class="far fa-check-circle"
+                                    title="{{item?.status ? 'Hoạt động' : 'Không hoạt động'}}"></i>
+                            </td>
+
+                            <td class="align-middle text-center">
+                                <span (click)="openCreateModal(item)" class="text-info m-cursor" title="Cập nhật">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                                <span (click)="resetPassword(item?.code)" class="text-primary m-cursor ml-1"
+                                    title="Cấp lại mật khẩu">
+                                    <i class="fas fa-user-lock"></i>
+                                </span>
+                                <span (click)="deletedUser(item)" class="text-danger m-cursor ml-1">
+                                    <i class="far fa-trash-alt"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-md-between align-items-md-center mt-2"
+                *ngIf="userList && userList.length > 0">
+                <div class="col-sm-12 col-md-2 col-lg-1">
+                    <ng-select [clearable]="false" (change)="changeLimit($event)" [items]="listPage"
+                        [(ngModel)]="pageSize"></ng-select>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-5 text-right">
+                    <span class="mb-2" id="tickets-table_info">
+                        {{'PORTAL.hien_thi' | translate}} {{ totalRecord === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+                        - {{ pageNumber * pageSize }} {{'PORTAL.tren' | translate}} {{ totalRecord }}
+                    </span>
+                </div>
+                <!-- Pagination -->
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecord"
+                        [pageSize]="pageSize" [page]="pageNumber" [maxSize]="maxSize" (pageChange)="onPageChange($event)">
+                    </ngb-pagination>
+                </div>
+                <!-- End Pagination -->
+            </div>
+        </div>
+    </div>

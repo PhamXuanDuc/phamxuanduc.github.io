@@ -1,0 +1,79 @@
+<div class="modal-header align-middle">
+  <h4 id="modal-title">{{title==="Create"?('PORTAL.create_menu'| translate):title==='Edit'?('PORTAL.edit_menu'|
+    translate):('PORTAL.chi_tiet'| translate)}}</h4>
+  <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <form [formGroup]="form" id="form-1">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.code' | translate}}<span class="text-danger">(*)</span></label>
+        <input maxlength="255" [ngClass]="{ 'is-invalid': (isSubmit && f.name.errors) }" class="form-control"
+               formControlName="code"
+               placeholder="{{('PORTAL.please_enter' | translate) + ('PORTAL.code' | translate)}}" type="text" />
+        <div *ngIf="isSubmit && f.code.errors" class="invalid-feedback">
+          <span *ngIf="f.code.errors.required">{{('PORTAL.please_enter' | translate) + ('PORTAL.code' | translate)}}</span>
+          <span *ngIf="f.code.errors.maxlength">{{('PORTAL.code' | translate)+('PORTAL.no_more_than_characters' | translate:'{length:50}')}}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.menuName' | translate}}<span class="text-danger">(*)</span></label>
+        <input maxlength="255" [ngClass]="{ 'is-invalid': (isSubmit && f.name.errors) }" class="form-control"
+          formControlName="name" placeholder="{{'PORTAL.enter_name' | translate}}" type="text" />
+        <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+          <span *ngIf="f.name.errors.required">{{'PORTAL.vui_long_nhap_ten_menu' | translate}}</span><br />
+          <span *ngIf="f.name.errors.maxlength">{{'PORTAL.ten_menu_khong_vuot_qua_255_ky_tu' | translate}}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.menuName_En' | translate}}<span
+            class="text-danger">(*)</span></label>
+        <input maxlength="255" [ngClass]="{ 'is-invalid': (isSubmit && f.nameEn.errors) }" class="form-control"
+          formControlName="nameEn" placeholder="{{'PORTAL.enter_name' | translate}}" type="text" />
+        <div *ngIf="isSubmit && f.nameEn.errors" class="invalid-feedback">
+          <span *ngIf="f.nameEn.errors.required">{{'PORTAL.vui_long_nhap_ten_menu_tieng_anh' | translate}}</span><br />
+          <span *ngIf="f.nameEn.errors.maxlength">{{'PORTAL.ten_menu_khong_vuot_qua_255_ky_tu' | translate}}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.parentMenu' | translate}}<span class="text-danger"></span></label>
+        <ng-select formControlName="parentId" placeholder="{{'PORTAL.please_select_parent_menu' | translate}}"
+          type="text" [items]="listMenu" bindValue="id" bindLabel="name"></ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.path' | translate}}<span class="text-danger">(*)</span></label>
+        <input maxlength="255" [ngClass]="{ 'is-invalid': (isSubmit && f.path.errors) }" class="form-control"
+          formControlName="path" placeholder="{{'PORTAL.enter_router' | translate}}" type="text" />
+        <div *ngIf="isSubmit && f.path.errors" class="invalid-feedback">
+          <span *ngIf="f.path.errors.required">{{'PORTAL.vui_long_nhap_duong_dan_menu' | translate}}</span><br />
+          <span *ngIf="f.path.errors.maxlength">{{'PORTAL.ten_menu_khong_vuot_qua_255_ky_tu' | translate}}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.icon' | translate}}<span class="text-danger"></span></label>
+        <ng-select formControlName="icon" placeholder="{{'PORTAL.please_select_icon' | translate}}" type="text">
+          <ng-option *ngFor="let item of listIcon" [value]="item.value">
+            <i class="{{item.name}}"></i> <span class="ml-1">{{item.name}}</span>
+          </ng-option>
+        </ng-select>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.priority' | translate}}<span class="text-danger"></span></label>
+        <input type="number" maxlength="4" class="form-control" formControlName="priority"
+          placeholder="{{'PORTAL.input_priority' | translate}}" />
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss('Cross click')" class="btn btn-secondary" data-dismiss="modal" type="button">
+    <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+  </button>
+  <button (click)="submit()" appDebounceClick class="btn btn-primary" type="button">
+    <i class="fas fa-check mr-1"></i>{{'PORTAL.save' | translate}}
+  </button>
+</div>

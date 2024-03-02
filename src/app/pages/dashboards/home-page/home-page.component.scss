@@ -1,0 +1,24 @@
+#orgChartId .org-chart-entity-border {
+    border-left: 1px solid green;
+    border-top: 1px solid green;
+}
+
+#orgChartId .org-chart-entity-connector {
+    height: 2em;
+}
+
+#orgChartId .org-chart-entity-box {
+    align-items: center;
+    border: 1px solid blue;
+    background-color: blue;
+    border-radius: 3px;
+    box-shadow: 0 .5rem 1rem #777!important;
+}
+.boc-light {
+    border-radius: 6px;
+}
+.class-update {
+    margin-bottom: -53px;
+    z-index: 1;
+    padding-top: 20px;
+}

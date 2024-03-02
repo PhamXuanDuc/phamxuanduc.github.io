@@ -1,0 +1,243 @@
+<div class="container-fluid">
+  <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+  </app-page-title>
+  <div class="row">
+    <div class="col-12 card-box">
+      <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+        <legend>
+          <a (click)="isCollapsed = !isCollapsed" href="javascript: void(0);">Search Information
+            <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+          </a>
+        </legend>
+        <!-- <form (ngSubmit)="search()" *ngIf="isCollapsed" [formGroup]="searchForm"> -->
+        <div class="row mb-2" *ngIf="isCollapsed">
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+            <label class="col-form-label form-control-label font-weight-bolder">
+              Mã role
+            </label>
+            <div class="mt-1">
+              <input class="form-control" [(ngModel)]="roleCode" placeholder="Search..." type="text"
+              (keyup.enter)="search()">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+            <label class="col-form-label form-control-label font-weight-bolder">
+              Tên role
+            </label>
+            <div class="mt-1">
+              <input class="form-control" [(ngModel)]="roleName" placeholder="Search..." type="text"
+              (keyup.enter)="search()">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-1">
+            <!-- <label class="col-form-label form-control-label font-weight-bolder">
+              </label> -->
+            <div class="text-right">
+
+              <button (click)="reset()" class="btn btn-secondary mt-1 mb-0" type="button">
+                <i class="fas fa-undo-alt mr-1"></i><span class="text-button">Refresh</span>
+              </button>
+              <button class="btn btn-primary mt-1 ml-1" type="submit" (click)="search()">
+                <i class="fas fa-search mr-1"></i><span class="text-button">Search</span>
+              </button>
+            </div>
+          </div>
+          <!-- <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                Status
+              </label>
+              <div class="mt-1">
+                <ng-select [placeholder]="'Select'" formControlName="status">
+                  <ng-option [value]="-1">All</ng-option>
+                  <ng-option [value]="1">Active</ng-option>
+                  <ng-option [value]="0">Inactive</ng-option>
+                </ng-select>
+              </div>
+            </div> -->
+        </div>
+        <!-- <div class="row">
+            <div class="col-7 text-left">
+              <button (click)="openCreateModal(null)" class="btn btn-primary mt-1 mr-1" type="button">
+                <i class="fas fa-plus mr-1"></i>Create
+              </button>
+            </div>
+            <div class="col-5 text-right">
+
+              <button (click)="initFormSearch()" class="btn btn-secondary mr-1 mt-1" type="button">
+                <i class="fas fa-undo-alt mr-1"></i>Refresh
+              </button>
+              <button class="btn btn-primary mt-1" type="submit">
+                <i class="fas fa-search mr-1"></i>Search
+              </button>
+            </div>
+          </div> -->
+        <!-- </form> -->
+
+      </fieldset>
+      <div class="row mt-2">
+        <div class="col-md-12 col-sm-12 col-lg-4">
+          <div class="mb-1" >
+            <span style="font-weight: 700;"><b>{{'PORTAL.role' | translate}}</b></span>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm table-hover m-w-tabble">
+              <thead>
+                <tr class="m-header-table">
+                  <th class="text-center align-middle">{{'PORTAL.code' | translate}}</th>
+                  <th class="text-center align-middle">{{'PORTAL.role' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!listRole || listRole.length <= 0">
+                  <td class="text-center align-middle" colspan="2">No data</td>
+                </tr>
+                <tr *ngFor="let item of listRole; let i = index">
+                  <!-- <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input disabled class="custom-control-input m-cursor" checked="{{item.status===1?true:false}}"
+                        id="{{item.code}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{item.code}}"></label>
+                    </div>
+                  </td> -->
+                  <td class="align-middle text-center text-primary m-cursor" (click)="getPermissionByRoleCode(item)">
+                    {{item?.code}}
+                  </td>
+                  <td class="align-middle text-center text-primary m-cursor" (click)="getPermissionByRoleCode(item)">
+                    {{item?.name}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-8">
+          <div class="row mb-1">
+            <div class="col-9">
+              Đang phân quyền cho: <span class="text-primary" style="font-weight: 700;"></span><b>{{permissionRole?.name}}</b>
+            </div>
+            <div class="col-3 text-right">
+              <span *ngIf="requestList && requestList?.length > 0">
+                <button class="btn btn-primary text-right" (click)="submit()"> Save</button>
+              </span>
+
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm table-hover m-w-tabble">
+              <thead>
+                <tr class="m-header-table">
+                  <th class="text-center align-middle mw-100">Chức năng </th>
+                  <th class="text-center align-middle">Tất cả
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <!-- [checked]="checkbox(item,'view')" -->
+                      <input class="custom-control-input m-cursor" (change)="onCheckAllPermission()" id="{{'all_permission'}}"
+                             [checked]="allPermission" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{'all_permission'}}"></label>
+                    </div>
+                  </th>
+                  <th class="text-center align-middle">Xem</th>
+                  <th class="text-center align-middle">Tạo</th>
+                  <th class="text-center align-middle">Sửa</th>
+                  <th class="text-center align-middle">Xóa</th>
+                   <th class="text-center align-middle">Xác nhận</th>
+                  <th class="text-center align-middle">Từ chối</th>
+                  <th class="text-center align-middle">Gọi</th>
+                  <th class="text-center align-middle">Download</th>
+                  <th class="text-center align-middle">Nhập file</th>
+                  <th class="text-center align-middle">Xuất file</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!permissionList || permissionList.length <= 0">
+                  <td class="text-center align-middle" colspan="10">No data</td>
+                </tr>
+                <tr *ngFor="let item of permissionList; let i = index">
+                  <td class="align-middle">{{item?.menuId | getLabelByIdInArray: listMenu: 'id' : 'name'}}</td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <!-- [checked]="checkbox(item,'view')" -->
+                      <input class="custom-control-input m-cursor" [(ngModel)]="item.all" (change)="onCheck(item, 'all')" id="{{i + 'all'}}"
+                             [checked]="item.all" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i + 'all'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <!-- [checked]="checkbox(item,'view')" -->
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'view')" id="{{i}}"
+                        [checked]="item.view" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input (change)="onCheck(item, 'create')" class="custom-control-input m-cursor"
+                        [checked]="item.create" id="{{i+ 'create'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+ 'create'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'update')"
+                        [checked]="item.update" id="{{i+ 'update'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+ 'update'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'delete')"
+                        [checked]="item.delete" id="{{i+'delete'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'delete'}}"></label>
+                    </div>
+                  </td>
+                   <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'confirm')"
+                        [checked]="item.confirm" id="{{i+'confirm'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'confirm'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'reject')"
+                        [checked]="item.reject" id="{{i+'reject'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'reject'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'call')"
+                             [checked]="item.call" id="{{i+'call'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'call'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'download')"
+                             [checked]="item.download" id="{{i+'download'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'download'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'importFile')"
+                             [checked]="item.importFile" id="{{i+'importFile'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'importFile'}}"></label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox  text-center align-middle">
+                      <input class="custom-control-input m-cursor" (change)="onCheck(item, 'export')"
+                             [checked]="item.export" id="{{i+'export'}}" [value]="true" type="checkbox">
+                      <label class="custom-control-label m-cursor" for="{{i+'export'}}"></label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

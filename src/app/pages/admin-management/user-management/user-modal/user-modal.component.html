@@ -1,0 +1,140 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">{{title==="Create"?('PORTAL.createUser'| translate):title==='Edit'?('PORTAL.edit_user'|
+        translate):('PORTAL.chi_tiet'| translate)}}</h4>
+    <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <form [formGroup]="form" id="form-1">
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="avatar avatar-size">
+                    <label for="file" title="Upload image" class="m-cursor">
+                        <img [src]="filePath" class="m-cursor" container="body" class="m-avatar mt-2">
+                    </label>
+
+                    <input type="file" accept="image/*" class="form-control-file" id="file"
+                        (change)="imagePreview($event)" />
+
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div class="row ml-0 pr-2">
+                    <div class="col-sm-12 m-form-group field">
+                        <input type="input" class="m-form-field" placeholder="User code" name="userCode" id='userCode'
+                            [ngClass]="{ 'm-invalid': (isSubmit && f.code.errors) || userCodeHasUse === 'userCode'}"
+                            formControlName="code" />
+                        <label for="userCode" class="m-form-label">{{'PORTAL.user_code' | translate}}<span
+                                class="text-danger">*</span></label>
+                        <div *ngIf="isSubmit && f?.code?.errors" class="invalid-feedback">
+                            <span *ngIf="f?.code.errors?.required">{{'PORTAL.vui_long_nhap_ma' | translate}}</span>
+                            <span *ngIf="f?.code.errors?.maxlength">{{'PORTAL.ma_khong_vuot_qua_255_ky_tu' |
+                                translate}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 m-form-group field">
+                        <input type="input" class="m-form-field" placeholder="Full name" name="fullName" id='fullName'
+                            [ngClass]="{ 'm-invalid': (isSubmit && f.fullName.errors)}" formControlName="fullName" />
+                        <label for="fullName" class="m-form-label">{{'PORTAL.full_name' | translate}}<span
+                                class="text-danger">*</span></label>
+                        <div *ngIf="isSubmit && f?.fullName?.errors" class="invalid-feedback">
+                            <span *ngIf="f?.fullName?.errors.required">{{'PORTAL.vui_long_nhap_ten' | translate}}</span>
+                            <span *ngIf="f?.fullName?.errors.maxlength">{{'PORTAL.ten_khong_vuot_qua_255_ky_tu' |
+                                translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label class="pt-1">{{'PORTAL.birthday' | translate}} <span
+                            class="text-danger">*</span></label>
+                    <div class="input-group clockpicker">
+                        <input #date="ngbDatepicker" autoClose="false" class="form-control" formControlName="birthday"
+                            ngbDatepicker placeholder="dd-mm-yyyy" [maxDate]="toDay"
+                            [ngClass]="{ 'is-invalid': (isSubmit && f.birthday.errors)}">
+                        <div (click)="date.toggle()" class="input-group-append">
+                            <span class="input-group-text"><i class="m-cursor far fa-calendar-alt fa-lg text-primary"></i></span>
+                        </div>
+                        <div *ngIf="isSubmit && f?.birthday?.errors" class="invalid-feedback">
+                            <span *ngIf="f?.birthday?.errors?.required">{{'PORTAL.vui_long_nhap_ngay_sinh' |
+                                translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'PORTAL.phone_no' | translate}}<span
+                        class="text-danger">*</span></label>
+                <input [ngClass]="{ 'is-invalid': (isSubmit && f.phoneNo.errors) || userCodeHasUse === 'PhoneNo'}"
+                    class="form-control" formControlName="phoneNo" placeholder="{{'PORTAL.enter_phone_no' | translate}}"
+                    type="text" />
+                <div *ngIf="isSubmit && f.phoneNo?.errors" class="invalid-feedback">
+                    <!-- <span *ngIf="f.phoneNo?.errors.required">{{'PORTAL.vui_long_nhap_so_dien_thoai' | translate}}</span> -->
+                    <span *ngIf="f.phoneNo?.errors.pattern">Sai định dạng số điện thoại</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'PORTAL.email' | translate}}<span
+                        class="text-danger">*</span></label>
+                <input [ngClass]="{ 'is-invalid': (isSubmit && f.email.errors) || userCodeHasUse === 'Email'}"
+                    class="form-control" formControlName="email" placeholder="{{'PORTAL.enter_email' | translate}}"
+                    type="text" />
+                <div *ngIf="isSubmit && f.email?.errors" class="invalid-feedback">
+                    <span *ngIf="f.email?.errors.required">{{'PORTAL.vui_long_nhap_email' | translate}}</span>
+                    <span *ngIf="f.email?.errors.maxlength">Email không vượt quá 255 ký tự</span>
+                    <span *ngIf="f.email?.errors.pattern">Sai định dạng email</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'PORTAL.department' | translate}}<span
+                        class="text-danger">*</span></label>
+                <div>
+                    <ng-select [items]="departmentList" [placeholder]="'Select'" bindLabel="name" bindValue="code"
+                        formControlName="departmentCode" [clearable]="false"
+                        [ngClass]="{ 'is-invalid': (isSubmit && f.departmentCode.errors)}">
+                    </ng-select>
+                    <div *ngIf="isSubmit && f.departmentCode?.errors" class="invalid-feedback">
+                        <span *ngIf="f.departmentCode?.errors.required">{{'PORTAL.vui_long_chon_phong_ban' |
+                            translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'PORTAL.role' | translate}} <span
+                        class="text-danger">*</span></label>
+                <div>
+                    <ng-select [items]="roleList" [placeholder]="'Select'" bindLabel="name" [multiple]="true"
+                        bindValue="code" formControlName="roleCode" [clearable]="false"
+                        [ngClass]="{ 'is-invalid': (isSubmit && f.roleCode.errors)}">
+                    </ng-select>
+                    <div *ngIf="isSubmit && f.roleCode?.errors" class="invalid-feedback">
+                        <span *ngIf="f.roleCode?.errors.required">{{'PORTAL.vui_long_chon_quyen' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <div class="form-check top-50p">
+                    <input class="form-check-input" formControlName="status" id="gridCheck" type="checkbox">
+                    <label class="form-check-label" for="gridCheck">
+                        {{'PORTAL.active' | translate}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button (click)="close()" class="btn btn-secondary" data-dismiss="modal" type="button">
+        <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+    </button>
+    <button (click)="submit()" class="btn btn-primary" type="button">
+        <i class="fas fa-check mr-1"></i>{{'PORTAL.save' | translate}}
+    </button>
+</div>

@@ -1,0 +1,128 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+    <div class="row">
+        <app-ui-preloader [display]="loading"></app-ui-preloader>
+        <div class="col-12 card-box">
+            <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+                <legend>
+                    <a (click)="isCollapsed = !isCollapsed" href="javascript: void(0);">{{'PORTAL.searchInformation' | translate}}
+                        <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+                    </a>
+                </legend>
+                <div *ngIf="isCollapsed">
+                    <div class="row mb-2">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'category_management.campaign.code' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <input class="form-control" [(ngModel)]="code" placeholder="{{'PORTAL.search' | translate}}..."
+                                       type="text" (keyup.enter)="search()">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                            <label class="col-form-label form-control-label font-weight-bolder">
+                                {{'category_management.campaign.name' | translate}}
+                            </label>
+                            <div class="mt-1">
+                                <input class="form-control" [(ngModel)]="name" placeholder="{{'PORTAL.search' | translate}}..."
+                                       type="text" (keyup.enter)="search()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7 text-left">
+                            <button (click)="openCreateModal(null)" class="btn btn-primary mt-1 mr-1" type="button">
+                                <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                            </button>
+                        </div>
+                        <div class="col-5 text-right">
+
+                            <button (click)="resetSearch()" class="btn btn-secondary mr-1 mt-1" type="button">
+                                <i class="fas fa-undo-alt mr-1"></i><span class="text-button">{{'PORTAL.refresh' | translate}}</span>
+                            </button>
+                            <button (click)="search()" class="btn btn-primary mt-1" type="submit">
+                                <i class="fas fa-search mr-1"></i><span class="text-button">{{'PORTAL.search' | translate}}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="col-12 border-bottom-dotted pb-0 p-0 mb-2 mt-3">
+                <span class="font-weight-medium theme-color">{{'category_management.product_list' | translate}}</span>
+            </div>
+            <div class="table-responsive">
+                <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+                <!-- <h4 class="header-title mb-3">File list</h4> -->
+                <table class="table table-bordered table-sm table-hover m-w-tabble">
+                    <thead>
+                    <tr class="m-header-table">
+                        <!-- <th class="text-center align-middle">
+                          <div class="custom-control custom-checkbox  text-center align-middle">
+                            <input class="custom-control-input m-cursor" id="checkAll" type="checkbox">
+                            <label class="custom-control-label m-cursor" for="checkAll"></label>
+                          </div>
+                        </th> -->
+                        <th class="text-center align-middle">{{'category_management.campaign.no' | translate}}</th>
+                        <th class="text-center align-middle mw-100">{{'category_management.campaign.code' | translate}}</th>
+                        <th class="text-center align-middle mw-200">{{'category_management.campaign.name' | translate}}</th>
+                        <!-- <th class="text-center align-middle">Status</th> -->
+                        <th class="text-center align-middle mw-100">{{'PORTAL.action' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="!listData || listData.length <= 0">
+                        <td class="text-center align-middle" colspan="4">{{'PORTAL.no_data' | translate}}</td>
+                    </tr>
+                    <tr *ngFor="let item of listData; let i = index">
+                        <!-- <td class="text-center">
+                          <div class="custom-control custom-checkbox align-middle">
+                            <input class="custom-control-input" type="checkbox" id="{{item.code}}">
+                            <label class="custom-control-label m-cursor" for="{{item.code}}"></label>
+                          </div>
+                        </td> -->
+                        <td class="align-middle text-center">{{(limit * (page - 1) + i) + 1}}</td>
+                        <td class="align-middle">
+                            <ngb-highlight [result]="item?.code" [term]="code"></ngb-highlight>
+                        </td>
+                        <td class="align-middle">
+                            <ngb-highlight [result]="language === 'vi'? item?.name: item?.nameEn" [term]="name"></ngb-highlight>
+                        </td>
+                        <!-- <td class="align-middle text-center">{{item?.status ? 'Hoạt động' : 'Không hoạt động'}}</td> -->
+                        <td class="align-middle text-center">
+                            <span (click)="openCreateModal(item)" class="text-info m-cursor">
+                              <i class="fas fa-pencil-alt"></i>
+                            </span>
+                            <span (click)="deleteItem(item)" class="text-danger  m-cursor ml-1">
+                            <i class="far fa-trash-alt"></i>
+                          </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-md-between align-items-md-center mt-2"
+                 *ngIf="listData && listData.length > 0">
+                <div class="col-sm-12 col-md-2 col-lg-1">
+                    <ng-select [clearable]="false" (change)="changeLimit($event)" [items]="listPage" [(ngModel)]="limit">
+                    </ng-select>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-5 text-right">
+          <span class="mb-2" id="tickets-table_info">
+            {{'PORTAL.hien_thi' | translate}} {{ totalRecords === 0 ? 0 : (page - 1) * limit + 1 }}
+              - {{ page * limit }} {{'PORTAL.tren' | translate}} {{ totalRecords }}
+          </span>
+                </div>
+                <!-- Pagination -->
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecords" [pageSize]="limit"
+                                    [page]="page" [maxSize]="5" (pageChange)="onPageChange($event)">
+                    </ngb-pagination>
+                </div>
+                <!-- End Pagination -->
+            </div>
+        </div>
+    </div>
+</div>

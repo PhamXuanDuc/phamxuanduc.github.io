@@ -1,0 +1,32 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">Danh sách lỗi khi import</h4>
+    <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <h4>Số dòng thất bại: <b class="text-danger">{{listError.length}}</b></h4>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-hover m-w-tabble">
+            <thead>
+                <tr class="m-header-table">
+                    <th class="text-center align-middle">Dòng</th>
+                    <th class="text-center align-middle">Lý do</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!listError || listError.length <= 0">
+                    <td class="text-center align-middle" colspan="2">Không có lỗi
+                    </td>
+                </tr>
+                <tr *ngFor="let item of listError; let i = index">
+                    <td class="align-middle text-center"> {{item?.numOfRowError}}</td>
+                    <td class="align-middle">
+                        {{item?.reason}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+<!-- Topbar Start -->
+<div class="navbar-custom">
+  <ul class="list-unstyled topnav-menu float-right mb-0">
+
+    <li class="dropdown d-none d-lg-block mr-2" ngbDropdown>
+      <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light pr-xs-0 pr-sm-0 pr-md-0 pr-lg-2 pr-xl-0"
+          (click)="changeLanguage(selectedLanguage === 'vi' ? 'en' : 'vi')">
+          <img height="15" src="assets/images/flags/{{selectedLanguage === 'vi' ? 'us' : 'vi'}}.jpg">
+      </a>
+    </li>
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a (click)="openScreen()" style="padding-top: 3px;" class="nav-link dropdown-toggle mr-0 waves-effect waves-light" href="javascript: void(0);" role="button"
+        aria-haspopup="false" aria-expanded="false" ngbDropdownToggle id="langDropdown">
+        <i class="{{fullScreen ? 'fas fa-expand-arrows-alt' : 'fas fa-expand'}}" style="font-size: 20px;"></i>
+      </a>
+    </li>
+    <!-- nitification -->
+    <li class="dropdown notification-list" ngbDropdown>
+      <a class="nav-link dropdown-toggle  waves-effect waves-light" href="javascript: void(0);" role="button"
+        aria-haspopup="false" aria-expanded="false" ngbDropdownToggle id="notificationDropdown">
+        <i class="fe-bell noti-icon"></i>
+        <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg"
+        aria-labelledby="notificationDropdown" ngbDropdownMenu>
+
+        <!-- item-->
+        <div class="dropdown-item noti-title" ngbDropdownItem>
+          <h5 class="m-0">
+            <span class="float-right">
+              <a href="javascript: void(0);" class="text-dark">
+                <small>Clear All</small>
+              </a>
+            </span>Notification
+          </h5>
+        </div>
+
+        <div id="notification-items" class="slimscroll noti-scroll" appSlimScroll>
+          <!-- item-->
+          <a *ngFor="let notification of notificationItems;" href="{{ notification.redirectTo }}"
+            class="dropdown-item notify-item" ngbDropdownItem>
+            <div class="notify-icon bg-soft-{{ notification.bgColor }} text-{{ notification.bgColor }}">
+              <i class="{{ notification.icon }}"></i>
+            </div>
+            <p class="notify-details">{{ notification.text }}
+              <small class="text-muted">{{ notification.subText }}</small>
+            </p>
+          </a>
+        </div>
+
+        <!-- All-->
+        <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+          View All
+        </a>
+      </div>
+    </li>
+    <!-- nitification -->
+
+    <li class="dropdown notification-list" ngbDropdown>
+      <a class="nav-link dropdown-toggle  waves-effect waves-light" href="javascript: void(0);" role="button"
+         aria-haspopup="false" aria-expanded="false" ngbDropdownToggle id="workStatus">
+        <i [ngClass]="workStt.icon"></i>
+        <span [ngClass]="workStt.class">{{workStt.name| translate}}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown" ngbDropdownMenu>
+        <!-- item-->
+        <div class="dropdown-header noti-title">
+          <h6 class="text-overflow m-0">{{'user.working_status.title'| translate}}</h6>
+        </div>
+
+        <!-- item-->
+        <a *ngFor="let item of workStatus" href="javascript:void(0);" class="dropdown-item notify-item" (click)="changeWorkStatus(item)">
+          <i [ngClass]="item.icon"></i>
+          <span [ngClass]="item.class" class="text-break" >{{item.name| translate}}</span>
+        </a>
+      </div>
+    </li>
+
+    <li class="dropdown notification-list" ngbDropdown>
+      <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" ngbDropdownToggle id="profileDropdown"
+        href="javascript: void(0);" role="button" aria-haspopup="false" aria-expanded="false">
+        <img [src]="filePath" alt="user-image" class="rounded-circle">
+        <!-- <span class="pro-user-name ml-1">
+          Di Nguyen <i class="mdi mdi-chevron-down"></i>
+        </span> -->
+      </a>
+      <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown" ngbDropdownMenu>
+        <!-- item-->
+        <div class="dropdown-header noti-title">
+          <h6 class="text-overflow m-0">Welcome !</h6>
+        </div>
+
+        <!-- item-->
+        <a routerLink="/account/my-account" class="dropdown-item notify-item">
+          <i class="remixicon-account-circle-line"></i>
+          <span>My Account</span>
+        </a>
+
+        <!-- item-->
+        <a (click)="openCreateModal()" class="dropdown-item notify-item">
+          <i class="remixicon-settings-3-line"></i>
+          <span>Change password</span>
+        </a>
+
+        <!-- item-->
+        <a href="javascript:void(0);" class="dropdown-item notify-item">
+          <i class="remixicon-lock-line"></i>
+          <span>Lock Screen</span>
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <!-- item-->
+        <a href="javascript:void(0);" class="menu-item notify-item" (click)="logout()">
+          <i class="remixicon-logout-box-line"></i>
+          <span>Logout</span>
+        </a>
+
+      </div>
+    </li>
+
+
+    <!-- <li class="dropdown notification-list">
+      <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light"
+        (click)="toggleRightSidebar()">
+        <i class="fe-settings noti-icon"></i>
+      </a>
+    </li> -->
+
+
+  </ul>
+
+  <!--Status Work-->
+
+  <!--Status Work-->
+
+  <!-- LOGO -->
+  <div class="logo-box">
+    <a href="/" class="logo text-center">
+      <span class="logo-lg">
+        <img src="assets/images/logo-light.png" alt="" height="65">
+      </span>
+      <span class="logo-sm">
+        <img src="assets/images/logo-light.png" alt="" height="50">
+      </span>
+    </a>
+  </div>
+
+  <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+    <li>
+      <button class="button-menu-mobile waves-effect waves-light" (click)="toggleMobileMenu($event)">
+        <i class="ti-align-right" style="color: rgba(255, 255, 255, 0.75);"></i>
+      </button>
+    </li>
+    <li style="width: 35%;">
+      <ng-marquee>
+        <mark>Hệ thống đang được xây dựng và phát triển bởi <a href="https://www.fis.com.vn/" target="__blank"> FIS BANK HCM SW3</a></mark>
+      </ng-marquee>
+    </li>
+  </ul>
+</div>
+<!-- end Topbar -->

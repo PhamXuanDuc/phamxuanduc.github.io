@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="card-box">
+                <div class="text-center">
+                    <button routerLink="/email-management/email-compose" 
+                    class="btn btn-primary btn-lg" style="width: 100%;">
+                    <i class="remixicon-pencil-line"></i> Soạn thư</button>
+                </div>
+                <div class="list-group mt-4">
+                  <a routerLink="/email-management/email" class="list-group-item border-0 text-danger font-weight-bold">
+                    <i class="ti-back-left  font-18 align-middle mr-2"></i>Trở lại hộp thư</a>
+                  <!-- <a  routerLink="/email-management/email-compose" class="list-group-item border-0"><i
+                          class="mdi mdi-send font-18 align-middle mr-2"></i>Soạn thư</a> -->
+                  <!-- <a routerLink="/email-management/email" class="list-group-item border-0"><i
+                          class="mdi mdi-delete font-18 align-middle mr-2"></i>Trash</a> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            
+            <div class="card-box">
+                <h3>Tạo thư mới</h3>
+                <div class="mt-4">
+                    <form  [formGroup]="form">
+                        <div class="form-group">
+                          <label class="pt-1">Gửi đến
+                            <span class="text-danger">(*)</span>
+                          </label>
+                          <ng-select [placeholder]="'Select'" formControlName="type"
+                                    [items]="types" bindLabel="name"  bindValue="code" 
+                                    [ngClass]="{ 'is-invalid': (isSubmit && f.type.errors)}">
+                          </ng-select>
+                          <div *ngIf="isSubmit && f?.type?.errors" class="invalid-feedback">
+                            <span *ngIf="f?.type.errors?.required">Thông tin bắt buộc</span>
+                          </div>
+                        </div>
+                        <div class="form-group" *ngIf="f.type.value=='U'">
+                          <label class="pt-1">Người dùng
+                            <span class="text-danger">(*)</span>
+                          </label>
+                          <ng-select [placeholder]="'Select'" [multiple]="true" formControlName="toUserId"
+                                    [items]="listUser" bindValue="id" [bindLabel]="'fullName'">
+                          </ng-select>
+                        </div>
+                        <div class="form-group" *ngIf="f.type.value=='R'">
+                          <label class="pt-1">Vai trò
+                            <span class="text-danger">(*)</span>
+                          </label>
+                          <ng-select [placeholder]="'Select'" [multiple]="true" formControlName="toRoleCode"
+                              [items]="listRole" bindValue="code" [bindLabel]="'name'">
+                          </ng-select>
+                        </div>
+                        <div class="form-group" *ngIf="f.type.value=='D'">
+                          <label class="pt-1">Phòng ban
+                            <span class="text-danger">(*)</span>
+                          </label>
+                          <ng-select [placeholder]="'Select'" [multiple]="true" formControlName="toDepartmentCode"
+                              [items]="listDepartment" bindValue="code" [bindLabel]="language === 'vi' ? 'name' : 'nameEn'">
+                          </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <input formControlName="subject" type="text" class="form-control" placeholder="Subject"
+                            [ngClass]="{ 'is-invalid': (isSubmit && f.subject.errors)}">
+                        </div>
+                        <quill-editor formControlName="content"  
+                                    [ngClass]="{ 'is-invalid': (isSubmit && f.content.errors)}">
+                        </quill-editor>
+                        <div class="form-group m-b-0 mt-2">
+                            <div class="text-right">
+                                <button (click)="submit()" class="btn btn-primary waves-effect waves-light"> <span>Send</span> <i class="mdi mdi-send ml-2"></i> </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div> <!-- end card-->
+            </div>
+        </div>
+
+
+       
+    </div><!-- End row -->
+</div>

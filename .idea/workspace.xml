@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="537999e4-5b6f-44c8-9b46-d7302a68190f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/HIE-SYSTEM.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/customer/customer/customer-modal/customer-modal.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/customer/customer/customer-modal/customer-modal.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/loan-account/loan-account/loan-account-modal/loan-account-modal/loan-account-modal.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/loan-account/loan-account/loan-account-modal/loan-account-modal/loan-account-modal.component.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/src/quickstart" />
+  </component>
+  <component name="ProjectId" id="2Epm3CUcy9Wvn0srV0gRR4qFxCX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.tslint" />
+    <property name="ts.external.directory.path" value="C:\Users\m s i\OneDrive - student.tdtu.edu.vn\Desktop\D-Collection\Frontent\node_modules\typescript\lib" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="GroovyScriptRunConfiguration" factoryName="Groovy" nameIsGenerated="true">
+      <module name="HIE-SYSTEM" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\m s i\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="C:\Users\m s i\OneDrive - student.tdtu.edu.vn\Desktop\D-Collection\Frontent" />
+          <option name="myCopyRoot" value="C:\Users\m s i\OneDrive - student.tdtu.edu.vn\Desktop\D-Collection\Frontent" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="C:\Users\m s i\OneDrive - student.tdtu.edu.vn\Desktop\D-Collection\Frontent" />
+          <option name="myCopyRoot" value="C:\Users\m s i\OneDrive - student.tdtu.edu.vn\Desktop\D-Collection\Frontent" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="537999e4-5b6f-44c8-9b46-d7302a68190f" name="Default Changelist" comment="" />
+      <created>1663300698546</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1663300698546</updated>
+      <workItem from="1663300700366" duration="322000" />
+      <workItem from="1663922847322" duration="1140000" />
+      <workItem from="1663924058263" duration="1174000" />
+      <workItem from="1664244156861" duration="23087000" />
+      <workItem from="1664282378618" duration="1316000" />
+      <workItem from="1664329918153" duration="25949000" />
+      <workItem from="1664375733234" duration="640000" />
+      <workItem from="1664417079139" duration="7456000" />
+      <workItem from="1664430539024" duration="1331000" />
+      <workItem from="1664505901220" duration="13602000" />
+      <workItem from="1664776261747" duration="16511000" />
+      <workItem from="1664848804821" duration="142000" />
+      <workItem from="1664848983065" duration="20002000" />
+      <workItem from="1664885437314" duration="3925000" />
+      <workItem from="1664951210006" duration="5320000" />
+      <workItem from="1665021256340" duration="9718000" />
+      <workItem from="1665034503465" duration="9776000" />
+      <workItem from="1665062835127" duration="815000" />
+      <workItem from="1665107847293" duration="8604000" />
+      <workItem from="1665152431041" duration="648000" />
+      <workItem from="1667552357169" duration="978000" />
+      <workItem from="1668160608735" duration="1571000" />
+      <workItem from="1668171831973" duration="1302000" />
+      <workItem from="1685005368555" duration="1016000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="223" y="63" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1685005546222">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="223" y="63" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.816@0.0.1536.816" timestamp="1685005546222" />
+    <state x="637" y="158" key="EnvironmentVariablesDialog" timestamp="1685005429021">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="637" y="158" key="EnvironmentVariablesDialog/0.0.1536.816@0.0.1536.816" timestamp="1685005429021" />
+    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1685005573513">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816@0.0.1536.816" timestamp="1685005573513" />
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1685009065892">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.816@0.0.1536.816" timestamp="1685009065892" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1685009065892">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.816@0.0.1536.816" timestamp="1685009065892" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1685009065892">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.816@0.0.1536.816" timestamp="1685009065892" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1685009065892">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.816@0.0.1536.816" timestamp="1685009065892" />
+  </component>
+</project>

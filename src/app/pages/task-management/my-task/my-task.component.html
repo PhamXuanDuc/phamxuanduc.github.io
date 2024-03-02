@@ -1,0 +1,153 @@
+<div class="container-fluid">
+  <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+  </app-page-title>
+  <div class="row">
+    <div class="col-12 card-box">
+      <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+        <legend>
+          <a href="javascript: void(0);" (click)="isCollapsed = !isCollapsed">{{'PORTAL.searchInformation' | translate}}
+            <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+          </a>
+        </legend>
+        <div *ngIf="isCollapsed">
+          <div class="row mb-2">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'TASK.task_code' | translate}}
+              </label>
+              <div class="mt-1">
+                <input type="text" class="form-control" placeholder="Nhập mã công việc"
+                  [(ngModel)]="code" (keyup.enter)="search()">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'TASK.task_name' | translate}}
+              </label>
+              <div class="mt-1">
+                <input type="text" class="form-control" placeholder="{{'Nhập tên công việc' | translate}}"
+                  [(ngModel)]="name" (keyup.enter)="search()">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'TASK.account_no' | translate}}
+              </label>
+              <div class="mt-1">
+                <input type="text" class="form-control" placeholder="{{'Nhập mã số tài khoản' | translate}}"
+                  [(ngModel)]="accountNo" (keyup.enter)="search()">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'TASK.branch' | translate}}
+              </label>
+              <div class="mt-1">
+                <ng-select [placeholder]="'Select'" [items]="listDepartment" bindValue="code" bindLabel="name"
+                  [(ngModel)]="branch" (change)="search()">
+                </ng-select>
+              </div>
+            </div>
+            
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'PORTAL.status' | translate}}
+              </label>
+              <div class="mt-1">
+                <ng-select [placeholder]="'Select'" [items]="listStatus" bindValue="code" bindLabel="name"
+                  [(ngModel)]="status" (change)="search()">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 text-left">
+              <div class="dropdown menu-group mt-1" ngbDropdown>
+                <button class="btn btn-success dropdown-toggle" type="button" ngbDropdownToggle id="profileDropdown" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                  {{'PORTAL.action' | translate}}
+                </button>
+                <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown" ngbDropdownMenu>
+                    <a href="javascript:void(0);" class="item-menu text-primary" (click)="openCreateModal(null)">
+                      <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                    </a>
+                    <a href="javascript:void(0);" class="item-menu text-primary" (click)="export()">
+                      <i class="fas fa-cloud-download-alt"></i>{{'PORTAL.export' | translate}}
+                    </a>
+                </div>
+              </div>
+
+              <div class="menu-group-pc">
+                <button type="button" class="btn btn-primary mt-1 mr-1" (click)="openCreateModal(null)">
+                  <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+                </button>
+                <!-- <button type="button" class="btn btn-primary mr-1 mt-1" (click)="export()">
+                  <i class="fas fa-cloud-download-alt"></i>
+                  {{'PORTAL.export' | translate}}
+                </button> -->
+              </div>
+            </div>
+            <div class="col-6 text-right">
+              <button type="button" class="btn btn-secondary mr-1 mt-1" (click)="refresh()">
+                <i class="fas fa-undo-alt mr-1"></i><span class="text-button">{{'PORTAL.refresh' | translate}}</span>
+              </button>
+              <button type="button" class="btn btn-primary mt-1" (click)="search()">
+                <i class="fas fa-search mr-1"></i><span class="text-button">{{'PORTAL.search' | translate}}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="col-12 border-bottom-dotted pb-0 p-0 mb-2 mt-3">
+        <span class="font-weight-medium theme-color">{{'TASK.task_list' | translate}}</span>
+      </div>
+      <div class="table-responsive">
+        <app-ui-preloader [display]="loading"></app-ui-preloader>
+        <table class="table table-bordered table-sm table-hover m-w-tabble">
+          <thead>
+            <tr class="m-header-table">
+              <th class="text-center align-middle w-20">{{'TASK.task_code' | translate}}</th>
+              <th class="text-center align-middle w-30">{{'TASK.task_name' | translate}}</th>
+              <th class="text-center align-middle w-20">{{'TASK.priortity' | translate}}</th>
+              <th class="text-center align-middle w-20">{{'TASK.task_status' | translate}}</th>
+              <th class="text-center align-middle w-10">{{'PORTAL.action' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!taskList || taskList.length <= 0">
+              <td class="text-center align-middle" colspan="5">{{'PORTAL.no_data' | translate}}</td>
+            </tr>
+            <tr *ngFor="let item of taskList; let i = index">
+              <td class="align-middle text-center" ><a [routerLink]="['/task/my-task',  item.code]"> {{item?.code}}</a></td>
+              <td class="align-middle"><a [routerLink]="['/task/my-task',  item.code]"> {{item?.name}}</a></td>
+              <td class="align-middle">{{item?.priortity}}</td>
+              <td class="align-middle">{{item?.status}}</td>
+              <td class="align-middle text-center">
+                <span class="text-info m-cursor" (click)="openCreateModal(item)">
+                  <i class="fas fa-pencil-alt"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-md-between align-items-md-center mt-2" *ngIf="taskList && taskList.length > 0">
+        <div class="col-sm-12 col-md-2 col-lg-1">
+            <ng-select [clearable]="false" (change)="changeLimit($event)" [items]="pageSizes"
+                [(ngModel)]="pageSize"></ng-select>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-5 text-right">
+            <span class="mb-2" id="tickets-table_info">
+                {{'PORTAL.hien_thi' | translate}} {{ totalRecord === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+                - {{ pageNumber * pageSize }} {{'PORTAL.tren' | translate}} {{ totalRecord }}
+            </span>
+        </div>
+        <!-- Pagination -->
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecord"
+                [pageSize]="pageSize" [page]="pageNumber" [maxSize]="5" (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+        </div>
+        <!-- End Pagination -->
+    </div>
+    </div>
+  </div>

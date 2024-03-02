@@ -1,0 +1,142 @@
+<div class="container-fluid">
+  <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+  </app-page-title>
+  <div class="row">
+    <div class="col-12 card-box">
+      <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+        <legend>
+          <a (click)="isCollapsed = !isCollapsed" href="javascript: void(0);">{{'PORTAL.searchInformation' | translate}}
+            <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+          </a>
+        </legend>
+        <form (ngSubmit)="search()" *ngIf="isCollapsed" [formGroup]="searchForm" class="pl-2">
+          <div class="row mb-2">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'PORTAL.menuName' | translate}}
+              </label>
+              <div class="mt-1">
+                <input class="form-control" formControlName="name"
+                  placeholder="{{'PORTAL.input_menu_name' | translate}}" type="text">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'PORTAL.parentMenu' | translate}}
+              </label>
+              <div class="mt-1">
+                <ng-select formControlName="parentId" placeholder="{{'PORTAL.please_select_parent_menu' | translate}}"
+                  type="text">
+                  <ng-option *ngFor="let item of listMenuParent" [value]="item.id">
+                    <em class="{{item.icon}}"></em> {{this.language === 'vi' ? item?.name : item?.nameEn}}
+                  </ng-option>
+
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+              <label class="col-form-label form-control-label font-weight-bolder">
+                {{'PORTAL.status' | translate}}
+              </label>
+              <div class="mt-1">
+                <ng-select [placeholder]="'Select'" formControlName="status">
+                  <ng-option [value]="'ALL'">{{'PORTAL.all' | translate}}</ng-option>
+                  <ng-option [value]="'Y'">{{'PORTAL.active' | translate}}</ng-option>
+                  <ng-option [value]="'N'">{{'PORTAL.inactive' | translate}}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-7 text-left">
+              <button (click)="openCreateModal(null)" class="btn btn-primary mt-1 mr-1" type="button">
+                <i class="fas fa-plus mr-1"></i>{{'PORTAL.create' | translate}}
+              </button>
+            </div>
+            <div class="col-5 text-right">
+
+              <button (click)="initFormSearch()" class="btn btn-secondary mr-1 mt-1" type="button">
+                <i class="fas fa-undo-alt mr-1"></i><span class="text-button">{{'PORTAL.refresh' | translate}}</span>
+              </button>
+              <button class="btn btn-primary mt-1" type="submit">
+                <i class="fas fa-search mr-1"></i><span class="text-button">{{'PORTAL.search' | translate}}</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </fieldset>
+      <div class="col-12 border-bottom-dotted pb-0 p-0 mb-2 mt-3">
+        <span class="font-weight-medium theme-color">{{'PORTAL.menuList' | translate}}</span>
+      </div>
+      <div class="table-responsive">
+        <!-- <app-ui-preloader [display]="loading"></app-ui-preloader> -->
+        <!-- <h4 class="header-title mb-3">File list</h4> -->
+        <table class="table table-bordered table-sm table-hover m-w-tabble">
+          <thead>
+            <tr class="m-header-table">
+              <th class="text-center align-middle mw-200">{{'PORTAL.code' | translate}}</th>
+              <th class="text-center align-middle mw-200">{{'PORTAL.name' | translate}}</th>
+              <th class="text-center align-middle mw-200">{{'PORTAL.parentMenu' | translate}}</th>
+              <th class="text-center align-middle mw-150">{{'PORTAL.router' | translate}}</th>
+              <th class="text-center align-middle mw-100">{{'PORTAL.priority' | translate}}</th>
+              <th class="text-center align-middle mw-100">{{'PORTAL.status' | translate}}</th>
+              <th class="text-center align-middle mw-100">{{'PORTAL.action' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!list || list.length <= 0">
+              <td class="text-center align-middle" colspan="7">{{'PORTAL.no_data' | translate}}</td>
+            </tr>
+            <tr *ngFor="let item of list; let i = index">
+              <td class="align-middle">
+                <a href="javascript: void(0);" (click)="openCreateModal(item)" >{{item?.code}}</a>
+              </td>
+              <td class="align-middle">
+                <ngb-highlight [result]="language === 'vi' ? item?.name :  item?.nameEn"
+                  [term]="searchForm.controls.name?.value"></ngb-highlight>
+              </td>
+              <td class="align-middle">
+                {{item.parentId | getLabelByIdInArray: listMenu: 'id': (language === 'vi' ? 'name': 'nameEn')}}
+              </td>
+              <td class="align-middle">{{item?.path}}</td>
+              <td class="align-middle text-center">{{item?.priority}}</td>
+              <td class="align-middle text-center">
+                <i [ngClass]="{'green': item?.status === 'Y'}" class="far fa-check-circle"
+                  title="{{item?.status === 'Y' ? 'Hoạt động' : 'Không hoạt động'}}"></i>
+              </td>
+              <td class="align-middle text-center">
+                <span (click)="openCreateModal(item)" class="text-info m-cursor">
+                  <i class="fas fa-pencil-alt"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div class="row justify-content-md-between align-items-md-center mt-2" *ngIf="list && list.length > 0">
+        <div class="col-sm-12 col-md-1">
+          <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+            <ng-select [clearable]="false" (change)="changeLimit()" [items]="listPage" [(ngModel)]="limit"></ng-select>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 text-left">
+          <div class="dataTables_info mb-2 col-8" id="tickets-table_info2" role="status" aria-live="polite">
+            {{'PORTAL.hien_thi' | translate}} {{ totalRecords === 0 ? 0 : (page - 1) * limit + 1 }}
+            - {{ page * limit }} {{'PORTAL.tren' | translate}} {{ totalRecords }}
+          </div>
+        </div>
+        <!-- Pagination -->
+        <div class="col-sm-12 col-md-5">
+          <div class="text-md-right float-md-right">
+            <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecords" [pageSize]="limit"
+              [page]="page" [maxSize]="5" (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+          </div>
+        </div>
+        <!-- End Pagination -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="container-fluid">
+    <app-page-title [breadcrumbItems]="breadCrumbItems" title="{{breadCrumbItems[breadCrumbItems.length - 1].label}}">
+    </app-page-title>
+    <div class="row">
+        <app-ui-preloader [display]="loading"></app-ui-preloader>
+        <div class="col-12 card-box">
+            <fieldset class="{{ !isCollapsed ? 'pb-0' : '' }}">
+                <legend>
+                    <a (click)="isCollapsed = !isCollapsed" href="javascript: void(0);">{{'PORTAL.searchInformation' |
+                        translate}}
+                        <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i>
+                    </a>
+                </legend>
+                <div class="row mb-2">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                        <label class="col-form-label form-control-label font-weight-bolder">
+                            Customer number
+                        </label>
+                        <div class="mt-1">
+                            <input type="text" (keyup.enter)="search()" class="form-control" [(ngModel)]="code"
+                                   placeholder="Search..."/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                        <label class="col-form-label form-control-label font-weight-bolder">
+                            Full name
+                        </label>
+                        <div class="mt-1">
+                            <input (keyup.enter)="search()" class="form-control"
+                                   [(ngModel)]="fullName" placeholder="Search..."/>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                        <label class="col-form-label form-control-label font-weight-bolder">
+                            {{'PORTAL.department' | translate}}
+                        </label>
+                        <div class="mt-1">
+                            <ng-select [items]="departmentList" [placeholder]="'Select'" bindLabel="name"
+                                       bindValue="code"
+                                       [(ngModel)]="departmentCode" (change)="search()">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-7 text-left">
+              <span (click)="onFileSelect($event)" class="btn btn-primary btn-file m-cursor mr-1 mt-1">
+                <input #inputFile type="file"/>
+                <i class="fas fa-cloud-upload-alt mr-1"></i>
+                Import
+              </span>
+                <button (click)="export()" class="btn btn-primary mr-1 mt-1" type="button">
+                    <i class="fas fa-cloud-download-alt mr-1"></i>
+                    Export
+                </button>
+                <button (click)="openCreateModal(null)" class="btn btn-primary mt-1 mr-1" type="button">
+                    <i class="fas fa-plus mr-1"></i>Create
+                </button>
+            </div>
+            <div class="col-5 text-right">
+                <button class="btn btn-secondary mr-1 mt-1" type="button" (click)="reset()">
+                    <i class="fas fa-undo-alt mr-1"></i>Refresh
+                </button>
+                <button class="btn btn-primary mt-1" type="button" (click)="search()">
+                    <i class="fas fa-search mr-1"></i>Search
+                </button>
+            </div>
+                </div>
+                <br/>
+            </fieldset>
+
+
+            <div class="col-12 border-bottom-dotted pb-0 p-0 mb-2 mt-3">
+                <span class="font-weight-medium theme-color">{{'CUSTOMER.danh_sach_khach_hang' | translate}}</span>
+            </div>
+            <div class="table-responsive">
+                <app-ui-preloader [display]="loading"></app-ui-preloader>
+                <table class="table table-bordered table-sm table-hover m-w-tabble">
+                    <thead>
+                    <tr class="m-header-table">
+                        <th class="text-center align-middle">STT</th>
+                        <th class="text-center align-middle">{{'CUSTOMER.ma_so_khach_hang' | translate}}</th>
+                        <th class="text-center align-middle">{{'CUSTOMER.ho_va_ten' | translate}}</th>
+                        <th class="text-center align-middle">{{'CUSTOMER.gioi_tinh' | translate}}</th>
+                        <th class="text-center align-middle">{{'CUSTOMER.dia_chi' | translate}}</th>
+                        <th class="text-center align-middle">{{'CUSTOMER.so_dien_thoai' | translate}}</th>
+                        <th class="text-center align-middle">{{'PORTAL.department' | translate}}</th>
+
+                        <th class="text-center align-middle mw-100">{{'PORTAL.action' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngIf="!customerList || customerList.length <= 0">
+                        <td class="text-center align-middle" colspan="9">No data</td>
+                    </tr>
+                    <tr *ngFor="let item of customerList; let i = index">
+
+                        <td class="align-middle text-center">{{(pageSize * (pageNumber - 1) + i) + 1}}</td>
+                        <td class="align-middle text-center">
+                            <ngb-highlight [result]="item?.code" [term]="code"></ngb-highlight>
+                        </td>
+                        <td class="align-middle text-center">
+                            <ngb-highlight [result]="item?.fullName" [term]="fullName"></ngb-highlight>
+                        </td>
+                        <td class="align-middle text-center">{{ item?.gender == true ? 'Nam' : 'Nữ'}}</td>
+                        <td class="text-center align-middle">{{ item?.address }}</td>
+                        <td class="text-center align-middle">{{ item?.phone }}</td>
+                        <td class="text-center align-middle">{{ item?.departmentCode}}</td>
+                        <td class="text-center align-middle text-center">
+
+                    <span (click)="openCreateModal(item)" class="text-info m-cursor">
+                      <i class="fas fa-pencil-alt"></i>
+                    </span>
+                            <span (click)="delete(item)" class="text-danger m-cursor ml-1">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-md-between align-items-md-center mt-2"
+                 *ngIf="customerList && customerList.length > 0">
+                <div class="col-sm-12 col-md-2 col-lg-1">
+                    <ng-select [clearable]="false" (change)="changeLimit($event)" [items]="pageSizeOptions"
+                               [(ngModel)]="pageSize"></ng-select>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-5 text-right">
+                  <span class="mb-2" id="tickets-table_info">
+                      {{'PORTAL.hien_thi' | translate}} {{ totalRecord === 0 ? 0 : (pageNumber - 1) * pageSize + 1 }}
+                      - {{ pageNumber * pageSize }} {{'PORTAL.tren' | translate}} {{ totalRecord }}
+                  </span>
+                </div>
+                <!-- Pagination -->
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <ngb-pagination class="d-flex justify-content-end mt-2" [collectionSize]="totalRecord"
+                                    [pageSize]="pageSize" [page]="pageNumber" [maxSize]="10"
+                                    (pageChange)="onPageChange($event)">
+                    </ngb-pagination>
+                </div>
+                <!-- End Pagination -->
+            </div>
+        </div>
+    </div>
+</div>

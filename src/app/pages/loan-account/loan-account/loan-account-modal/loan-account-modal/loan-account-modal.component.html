@@ -1,0 +1,114 @@
+<div class="modal-header align-middle">
+  <h4 id="modal-title"> Loan Account </h4>
+  <button
+    (click)="activeModal.dismiss('Cross click')"
+     aria-describedby="modal-title"
+    class="close"
+    type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+<div class="modal-body">
+  <form class="needs-validation" (ngSubmit)="submit()" [formGroup]="form">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 form-group">
+          <label>CIF No<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="cifNo" placeholder="CIF No"
+              [ngClass]="{'is-invalid': isSubmit && f.cifNo.errors}">
+            <div *ngIf="isSubmit && f.cifNo.errors" class="invalid-feedback">
+              <span *ngIf="f.cifNo.errors.required">Enter CIF No</span>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 form-group">
+          <label>Account Number<span class="text-danger">*</span></label>
+          <input type="email" class="form-control" formControlName="accountNumber" placeholder="Account Number"
+              [ngClass]="{'is-invalid': isSubmit && f.accountNumber.errors}">
+            <div *ngIf="isSubmit && f.accountNumber.errors" class="invalid-feedback">
+              <span *ngIf="f.accountNumber.errors.required">Enter Account Number</span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 form-group">
+          <label>Name<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Name"
+              [ngClass]="{'is-invalid': isSubmit && f.name.errors}">
+            <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+              <span *ngIf="f.name.errors.required">Enter name</span>
+            </div>
+        </div>
+            <div class="col-sm-12 col-md-6 form-group">
+              <label>Address<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="address" placeholder="address"
+                  [ngClass]="{'is-invalid': isSubmit && f.address.errors}">
+              <div *ngIf="isSubmit && f.address.errors" class="invalid-feedback">
+                  <span *ngIf="f.address.errors.required">Enter address</span>
+            </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 form-group">
+              <label>Phone number<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="phone" placeholder="phone"
+                  [ngClass]="{'is-invalid': isSubmit && f.phone.errors}">
+                <div *ngIf="isSubmit && f.phone.errors" class="invalid-feedback">
+                  <span *ngIf="f.phone.errors.required">Enter phone number</span>
+                  <div *ngIf="f.phone.errors.pattern">{{'CUSTOMER.dinh_dang_so_dien_thoai'|translate}}</div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 form-group">
+              <label>Email<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="email" placeholder="Email"
+                  [ngClass]="{'is-invalid': isSubmit && f.email.errors}">
+              <div *ngIf="isSubmit && f.email.errors" class="invalid-feedback">
+                  <span *ngIf="f.email.errors.required">{{'CUSTOMER.vui_long_nhap_email'}}</span>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+              <label>Currency<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="currency" placeholder="Currency"
+                  [ngClass]="{'is-invalid': isSubmit && f.currency.errors}">
+              <div *ngIf="isSubmit && f.currency.errors" class="invalid-feedback">
+                  <span *ngIf="f.currency.errors.required">{{'CUSTOMER.vui_long_nhap_loai_tien_te'|translate}}</span>
+              </div>
+            </div> 
+<!--            <div class="col-sm-12 col-md-6 form-group">-->
+<!--                <label class="pt-1">{{'PORTAL.department' | translate}}<span-->
+<!--                        class="text-danger">*</span></label>-->
+<!--                <div>-->
+<!--                    <ng-select [items]="departmentList" [placeholder]="'Select'" bindLabel="name" bindValue="code"-->
+<!--                        formControlName="branchCode"-->
+<!--                        [ngClass]="{ 'is-invalid': (isSubmit && f.branchCode.errors)}">-->
+<!--                    </ng-select>-->
+<!--                    <div *ngIf="isSubmit && f.branchCode?.errors" class="invalid-feedback">-->
+<!--                        <span *ngIf="f.branchCode?.errors.required">{{'PORTAL.vui_long_chon_phong_ban' |-->
+<!--                            translate}}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+            <div class="col-sm-12 col-md-6 form-group">
+              <label class="pt-1">{{'CUSTOMER.khach_hang' | translate}}<span
+                      class="text-danger">*</span></label>
+              <div>
+                  <ng-select [items]="customerList" [placeholder]="'Select'" bindLabel="code" bindValue="code"
+                      formControlName="accountNumber"
+                      [ngClass]="{ 'is-invalid': (isSubmit && f.accountNumber.errors)}">
+                  </ng-select>
+                  <div *ngIf="isSubmit && f.accountNumber?.errors" class="invalid-feedback">
+                      <span *ngIf="f.accountNumber?.errors.required">{{'CUSTOMER.vui_long_chon_khach_hang' |
+                          translate}}</span>
+                  </div>
+          </div> 
+        </div> 
+      </div> 
+          
+        <div class="modal-footer">
+              <button (click)="close()" class="btn btn-secondary" data-dismiss="modal" type="button">
+                <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+            </button>
+            <button (click)="submit()" class="btn btn-primary" type="button">
+                <i class="fas fa-check mr-1"></i>Save
+            </button>
+        </div>
+  </form>
+</div>

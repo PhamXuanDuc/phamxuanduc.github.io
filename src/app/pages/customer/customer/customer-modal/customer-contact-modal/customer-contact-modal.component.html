@@ -1,0 +1,92 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">{{'CUSTOMER.lien_he'|translate}}</h4>
+    <button
+            (click)="activeModal.dismiss('Cross click')"
+            aria-describedby="modal-title"
+            class="close"
+            type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form class="needs-validation" (ngSubmit)="submit()" [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.dia_chi_thuong_tru'|translate}}<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="permanentAddress" placeholder="permanent address"
+                       [ngClass]="{'is-invalid': isSubmit && f.permanentAddress.errors}">
+                <div *ngIf="isSubmit && f.permanentAddress.errors" class="invalid-feedback">
+                    <span *ngIf="f.permanentAddress.errors.required">Enter permanent address</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.dia_chi_tam_tru'|translate}}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="temporaryResidenceAddress" placeholder="temporary residence address"
+                       [ngClass]="{'is-invalid': isSubmit && f.temporaryResidenceAddress.errors}">
+                <div *ngIf="isSubmit && f.temporaryResidenceAddress.errors" class="invalid-feedback">
+                    <span *ngIf="f.temporaryResidenceAddress.errors.required">Enter temporary residence address</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.so_nha'|translate}}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="homeNumber" placeholder="home number"
+                       [ngClass]="{'is-invalid': isSubmit && f.homeNumber.errors}">
+                <div *ngIf="isSubmit && f.homeNumber.errors" class="invalid-feedback">
+                    <span *ngIf="f.homeNumber.errors.required">Enter home number</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.dia_chi_noi_lam_viec'|translate}}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="companyAddress" placeholder="company address"
+                       [ngClass]="{'is-invalid': isSubmit && f.companyAddress.errors}">
+                <div *ngIf="isSubmit && f.companyAddress.errors" class="invalid-feedback">
+                    <span *ngIf="f.companyAddress.errors.required">Enter company address</span>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.so_dien_thoai_noi_lam_viec'|translate}}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="companyPhone" placeholder="company phone"
+                       [ngClass]="{'is-invalid': isSubmit && f.companyPhone.errors}">
+                <div *ngIf="isSubmit && f.companyPhone.errors" class="invalid-feedback">
+                    <span *ngIf="f.companyPhone.errors.required">Enter company phone</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label>{{'CUSTOMER.ten_nguoi_tham_chieu'|translate}}<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="nameOfTheReferencePerson" placeholder="name Of The Reference Person"
+                       [ngClass]="{'is-invalid': isSubmit && f.nameOfTheReferencePerson.errors}">
+                <div *ngIf="isSubmit && f.nameOfTheReferencePerson.errors" class="invalid-feedback">
+                    <span *ngIf="f.nameOfTheReferencePerson.errors.required">Enter name Of The Reference Person</span>
+                </div>
+            </div>
+
+        <div class="col-sm-12 col-md-6 form-group">
+            <label>{{'CUSTOMER.moi_quan_he'|translate}}<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="referenceRelationship" placeholder="reference Relationship"
+                   [ngClass]="{'is-invalid': isSubmit && f.referenceRelationship.errors}">
+            <div *ngIf="isSubmit && f.referenceRelationship.errors" class="invalid-feedback">
+                <span *ngIf="f.referenceRelationship.errors.required">Enter reference Relationship</span>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 form-group">
+            <label>{{'CUSTOMER.so_dien_thoai_nguoi_tham_chieu'|translate}}<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="phoneNumberReference" placeholder="phone Number Reference"
+                   [ngClass]="{'is-invalid': isSubmit && f.phoneNumberReference.errors}">
+            <div *ngIf="isSubmit && f.phoneNumberReference.errors" class="invalid-feedback">
+                <span *ngIf="f.phoneNumberReference.errors.required">Enter phone Number Reference</span>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="close()" class="btn btn-secondary" data-dismiss="modal" type="button">
+                <i class="fas fa-times mr-1"></i>{{'CUSTOMER.cancel' | translate}}
+            </button>
+            <button  (click)="submit()" class="btn btn-primary" type="button">
+                <i class="fas fa-check mr-1"></i>{{'CUSTOMER.save' | translate}}
+            </button>
+        </div>
+    </form>
+</div>

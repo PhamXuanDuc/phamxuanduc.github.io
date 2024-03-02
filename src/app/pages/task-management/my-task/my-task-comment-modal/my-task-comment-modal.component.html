@@ -1,0 +1,43 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">{{title==="Create"?('TASK.create_task'|
+        translate):title==='Edit'?('TASK.edit_comment'|
+        translate):('PORTAL.chi_tiet'| translate)}}</h4>
+    <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <form [formGroup]="form" id="form-1">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.creater_comment' | translate}}</label>
+                <input disabled="true" class="form-control" formControlName="creater" type="text" />
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.create_date_comment' | translate}}</label>
+                <input disabled="true" class="form-control" formControlName="createDate" type="text" />
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.editer_comment' | translate}}</label>
+                <input disabled="true" class="form-control" formControlName="editer" type="text" />
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.edit_date_comment' | translate}}</label>
+                <input disabled="true" class="form-control" formControlName="editDate" type="text" />
+            </div>
+            <div class="col-sm-12 col-md-12 form-group">
+                <label class="pt-1">{{'TASK.data_comment' | translate}}</label>
+                <quill-editor  formControlName="dataComment"></quill-editor> <br>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <!-- <button (click)="reset()" class="btn btn-secondary" data-dismiss="modal" type="button">
+        <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+    </button> -->
+    <button (click)="update()" class="btn btn-primary" type="button">
+        <i class="fas fa-check mr-1"></i>{{'PORTAL.save' | translate}}
+    </button>
+</div>

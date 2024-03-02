@@ -1,0 +1,52 @@
+<!-- ========== Left Sidebar Start ========== -->
+<ng-template #contentTemplate>
+    <!--- Sidemenu -->
+    <div id="sidebar-menu">
+        <ul class="metismenu" id="side-menu" #sideMenu appToggleSidebar>
+            <li class="menu-title">{{language === 'vi' ? 'Danh sách chức năng' : 'Function list'}}</li>
+            <li *ngFor="let item of listMenu; let i = index">
+                <!-- <a href="javascript: void(0);" class="waves-effect">
+                    <i class="{{item.icon}}"></i>
+                    <span>{{language === 'vi' ? item.name : item.nameEn}}</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false">
+                    <li *ngFor="let itemChild of item.menuChilds; let i = index">
+                        <a (click)="closeMenuMobile()" routerLink="{{itemChild.path}}" class="side-nav-link-ref" routerLinkActive="active">{{language === 'vi' ? itemChild.name : itemChild.nameEn}}</a>
+                    </li>
+                </ul> -->
+                <a href="javascript: void(0);" class="waves-effect" *ngIf="item.menuChilds?.length > 0">
+                    <i class="{{item.icon}}"></i>
+                    <span>{{language === 'vi' ? item.name : item.nameEn}}</span>
+                    <span *ngIf="item.menuChilds?.length > 0" class="menu-arrow"></span>
+                </a>
+                <a class="waves-effect" *ngIf="item.menuChilds?.length < 1" routerLink="{{item.path}}">
+                    <i class="{{item.icon}}"></i>
+                    <span>{{language === 'vi' ? item.name : item.nameEn}}</span>
+                </a>
+                <ul class="nav-second-level" aria-expanded="false" *ngIf="item.menuChilds?.length > 0">
+                    <li *ngFor="let itemChild of item.menuChilds; let i = index">
+                        <a (click)="closeMenuMobile()" routerLink="{{itemChild.path}}" (click)="putMenuId(itemChild?.id)" class="side-nav-link-ref" routerLinkActive="active">{{language === 'vi' ? itemChild.name : itemChild.nameEn}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- End Sidebar -->
+
+    <div class="clearfix"></div>
+</ng-template>
+
+
+<div class="left-side-menu">
+
+    <div class="slimscroll-menu" appSlimScroll *ngIf="!isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+
+    <div class="slimscroll-menu" *ngIf="isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+
+</div>
+<!-- Left Sidebar End -->

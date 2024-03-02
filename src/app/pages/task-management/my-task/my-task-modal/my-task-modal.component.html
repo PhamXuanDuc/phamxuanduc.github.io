@@ -1,0 +1,168 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">{{title==="Create"?('TASK.create_task'|
+        translate):title==='Edit'?('TASK.edit_task'|
+        translate):('PORTAL.chi_tiet'| translate)}}</h4>
+    <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <form [formGroup]="form" id="form-1">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.task_code' | translate}}</label>
+                <input disabled="true"  class="form-control" formControlName="code" type="text" />
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.task_name' | translate}}<span
+                        class="text-danger">(*)</span></label>
+                <input class="form-control" [ngClass]="{ 'is-invalid': (isSubmit && f.name.errors)}"
+                    formControlName="name" placeholder="{{'TASK.enter_task_name' | translate}}" type="text"
+                    maxlength="255" />
+                <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+                    <span *ngIf="f.name.errors.required">{{'TASK.please_input_task_name' |
+                        translate}}</span><br />
+                    <span
+                        *ngIf="f.name.errors.maxlength">{{'TASK.ten_cong_viec_khong_vuot_qua_255_ky_tu'
+                        | translate}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.account_no' | translate}}<span
+                        class="text-danger">(*)</span></label>
+                <input class="form-control" [ngClass]="{ 'is-invalid': (isSubmit && f.accountNo.errors)}"
+                    formControlName="accountNo" placeholder="{{'TASK.enter_account_no' | translate}}" type="text"
+                    maxlength="255" />
+                <div *ngIf="isSubmit && f.accountNo.errors" class="invalid-feedback">
+                    <span *ngIf="f.accountNo.errors.required">{{'TASK.please_input_account_no' | translate}}</span><br />
+                    <span
+                        *ngIf="f.accountNo.errors.maxlength">{{'TASK.ma_so_tai_khoan_khong_vuot_qua_50_ky_tu' | translate}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.branch' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <ng-select placeholder="Select" [items]="listDepartment" bindValue="code" bindLabel="name" formControlName="branch"></ng-select>
+                <div *ngIf="isSubmit && f.branch.errors" class="invalid-feedback">
+                    <span *ngIf="f.branch.errors.required">{{'TASK.please_choose_branch' | translate}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.reporter' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <ng-select placeholder="Select" [items]="listReporter" bindValue="code" bindLabel="fullName" formControlName="reporter"></ng-select>
+                <div *ngIf="isSubmit && f.reporter.errors" class="invalid-feedback">
+                    <span *ngIf="f.reporter.errors.required">{{'TASK.please_choose_reporter' | translate}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.assignee' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <ng-select placeholder="Select" [items]="listAssignee" bindValue="code" bindLabel="fullName" formControlName="assignee"></ng-select>
+                <div *ngIf="isSubmit && f.assignee.errors" class="invalid-feedback">
+                    <span *ngIf="f.assignee.errors.required">{{'TASK.please_choose_assignee' | translate}}</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.start_date' | translate}}<span class="text-danger">(*)</span></label>
+                <div class="input-group clockpicker">
+                    <input #timeFrom0="ngbDatepicker" autoClose="false" class="form-control" ngbDatepicker placeholder="dd/mm/yyyy" formControlName="startDate">
+                    <div (click)="timeFrom0.toggle()" class="input-group-append">
+                        <span class="input-group-text"><i class="m-cursor far fa-calendar-alt fa-lg text-primary"></i></span>
+                    </div>
+                </div>
+                <div *ngIf="isSubmit && f.startDate.errors" class="invalid-feedback">
+                    <span *ngIf="f.startDate.errors.required">{{'TASK.please_choose_start_date' | translate}}</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.due_date' | translate}}<span class="text-danger">(*)</span></label>
+                <div class="input-group clockpicker">
+                    <input #timeFrom1="ngbDatepicker" autoClose="false" class="form-control" ngbDatepicker placeholder="dd/mm/yyyy" formControlName="dueDate">
+                    <div (click)="timeFrom1.toggle()" class="input-group-append">
+                        <span class="input-group-text"><i class="m-cursor far fa-calendar-alt fa-lg text-primary"></i></span>
+                    </div>
+                </div>
+                <div *ngIf="isSubmit && f.dueDate.errors" class="invalid-feedback">
+                    <span *ngIf="f.dueDate.errors.required">{{'TASK.please_choose_due_date' | translate}}</span>
+                </div>
+            </div>
+           
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.task_status' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <ng-select placeholder="Select" [items]="listStatus" bindValue="code" bindLabel="name" formControlName="status"></ng-select>
+            </div>
+
+            <div class="col-sm-12 col-md-6 form-group">
+                <label class="pt-1">{{'TASK.priortity' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <ng-select placeholder="Select" [items]="listPriortity" bindValue="code" bindLabel="name" formControlName="priortity"></ng-select>
+            </div>
+
+            <div class="col-sm-12 col-md-12 form-group">
+                <div class="input-file-container">
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <label for="upload">
+                          <span class="btn-upload-file" *ngIf="this.f.code.value ==null">Chọn file</span>
+                          <input (change)="getFileDetails($event)"  type="file"  multiple 
+                                style="display:none" id="upload">
+                        </label>
+
+                        <label for="upload1">
+                            <span class="btn-upload-file" *ngIf="this.f.code.value !=null">Thêm File</span>
+                            <input (change)="addFile($event)"  type="file"  multiple 
+                                  style="display:none" id="upload1">
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                
+                <div *ngFor="let item of myFiles" class="mt-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="pt-1 attach-file">
+                          <span class="pb-1">{{item.name}}</span>
+                          <span class="pb-1">{{item.nameFile}}</span>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="pt-1">
+                          <span class="pb-1">{{item.size / 1000000}} MB</span>
+                        </div>
+                      </div>
+                      <div class="col-3 text-right">
+                        <div class="row">
+                          <a *ngIf="item.id != null" (click)="downloadFile(item.id, item.nameFile)"  class="btn-download-file mr-1">Tải về</a>
+                          <a *ngIf="item.id != null" (click)="deleteFile(item.id)" class="btn-delete-file text-danger">Xóa</a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col-sm-12 col-md-12 form-group">
+                <label class="pt-1">{{'TASK.task_description' | translate}}<span
+                    class="text-danger">(*)</span></label>
+                <quill-editor formControlName="description"></quill-editor>
+                <div *ngIf="isSubmit && f.description.errors" class="invalid-feedback">
+                    <span *ngIf="f.description.errors.required">Vui lòng nhập mô tả</span>
+                </div>
+            </div>
+           
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button (click)="reset()" class="btn btn-secondary" data-dismiss="modal" type="button">
+        <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+    </button>
+    <button (click)="submit()" class="btn btn-primary" type="button">
+        <i class="fas fa-check mr-1"></i>{{'PORTAL.save' | translate}}
+    </button>
+</div>

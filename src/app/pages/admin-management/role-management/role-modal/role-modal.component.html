@@ -1,0 +1,50 @@
+<div class="modal-header align-middle">
+  <h4 id="modal-title">{{title==="Create"?('PORTAL.create_role'| translate):title==='Edit'?('PORTAL.edit_role'|
+    translate):('PORTAL.chi_tiet'| translate)}}</h4>
+  <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <form [formGroup]="form" id="form-1">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.role_code' | translate}}<span class="text-danger">*</span></label>
+        <input [ngClass]="{ 'is-invalid': (isSubmit && f.code.errors) }" class="form-control" formControlName="code"
+          placeholder="{{'PORTAL.enter_user_code' | translate}}" type="text" maxlength="255" />
+        <div *ngIf="isSubmit && f.code.errors" class="invalid-feedback">
+          <span *ngIf="f.code.errors.required">{{'PORTAL.vui_long_nhap_ma_vai_tro' | translate}}</span>
+          <span *ngIf="f.code.errors.maxlength">{{'PORTAL.ma_vai_tro_khong_vuot_qua_255_ky_tu' | translate}}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 form-group">
+        <label class="pt-1">{{'PORTAL.role_name' | translate}}<span class="text-danger">*</span></label>
+        <input [ngClass]="{ 'is-invalid': (isSubmit && f.name.errors) }" class="form-control" formControlName="name"
+          placeholder="{{'PORTAL.enter_full_name' | translate}}" type="text" maxlength="255" />
+        <div *ngIf="isSubmit && f.name.errors" class="invalid-feedback">
+          <span *ngIf="f.name.errors.required">{{'PORTAL.vui_long_nhap_ten_vai_tro' | translate}}</span>
+          <span *ngIf="f.name.errors.maxlength">{{'PORTAL.ten_vai_tro_khong_vuot_qua_255_ky_tu' | translate}}</span>
+        </div>
+      </div>
+
+      <!-- <div class="col-sm-12 col-md-6 form-group">
+        <div class="form-check">
+          <input class="form-check-input" formControlName="status" id="gridCheck" type="checkbox">
+          <label class="form-check-label" for="gridCheck">
+            Active
+          </label>
+        </div>
+      </div> -->
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss('Cross click')" class="btn btn-secondary" data-dismiss="modal" type="button">
+    <i class="fas fa-times mr-1"></i>{{'PORTAL.cancel' | translate}}
+  </button>
+  <button (click)="submit()" appDebounceClick class="btn btn-primary" type="button">
+    <i class="fas fa-check mr-1"></i>{{'PORTAL.save' | translate}}
+  </button>
+</div>

@@ -1,0 +1,37 @@
+<div class="modal-header align-middle">
+    <h4 id="modal-title">Chi tiết Email</h4>
+    <button (click)="activeModal.dismiss('Cross click')" aria-describedby="modal-title" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    
+    <div class="">
+        <h5 class="font-18">{{item?.subject}}</h5>
+        <hr>
+        <div class="media mb-4 mt-1">
+            <img class="d-flex mr-2 rounded-circle avatar-sm border border-warning" src="https://www.fis.com.vn/Portals/0/fpt-information-systTF4ODW0Q9A.jpg" >
+            <div class="media-body">
+                <span class="float-right">{{item?.createDate  | date:'medium'}}</span>
+                <h6 class="m-0 font-14">{{item?.fromUserId | getLabelByIdInArray: listUser: 'id': 'fullName'}}</h6>
+                <small class="text-muted">Trạng thái: {{item?.isRead!='f'?'Chưa xem':'Đã xem'}}</small>
+            </div>
+        </div>
+
+        <div [innerHTML]="item?.content"></div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button *ngIf="item?.status === 'S'" (click)="updateTrash(item?.id)"  class="btn btn-primary" type="button">
+       <i class="mdi mdi-delete-variant font-18 mr-1"></i>Chuyển vào thùng rác
+    </button>
+    <button *ngIf="item?.status === 'T'" (click)="moveInbox(item?.id)"  class="btn btn-primary" type="button">
+        <i class="mdi mdi-inbox font-18 align-middle mr-2"></i>Chuyển về hộp thư đến
+     </button>
+
+    <!-- <button type="button" class="btn btn-sm btn-light"><i class="mdi mdi-delete-variant font-18 mr-1"></i>Chuyển vào thùng rác</button> -->
+        <!-- <button type="button" class="btn btn-sm btn-light"><i class="remixicon-mail-open-fill mr-1"></i>Đánh đấu là đã đọc</button> -->
+    
+</div>

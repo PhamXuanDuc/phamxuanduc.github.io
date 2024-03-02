@@ -1,0 +1,222 @@
+<div class="container-fluid">
+    <app-page-title title="{{'TASK.detail_task' | translate}}" [breadcrumbItems]="breadCrumbItems">
+    </app-page-title>
+    <div class="row">
+      <div class="col-12 card-box">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-secondary mr-1" type="button" [routerLink]="['/task/task-management']">
+              <i class="fas fa-list mr-1"></i>{{'TASK.task_list' | translate}}
+            </button>
+          </div>
+          <div class="col-6 text-right">
+            <button class="btn btn-primary mr-1" type="button" >
+              <i class="fas fa-pencil-alt mr-1"></i>{{'TASK.task_link' | translate}}
+            </button>
+            <button class="btn btn-primary" type="button"  (click)="openCreateModal(taskList)">
+              <i class="fas fa-pencil-alt mr-1"></i>{{'button.update' | translate}}
+            </button>
+          </div>
+        </div> <br>
+        <fieldset class="{{!isCollapsed ? 'pb-0' : ''}}">
+          <legend>
+            <span>{{'TASK.detail_task' | translate}}
+              <!-- <i class="{{isCollapsed ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i> -->
+            </span>
+          </legend>
+          <div *ngIf="isCollapsed">
+            <div class="row mb-2">
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.task_code' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.code}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.task_name' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.name}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.account_no' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.accountNo}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.branch' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.branch | getLabelByIdInArray: listDepartment: 'code': (language === 'vi' ? 'name' : 'nameEn')}}</span>
+
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.reporter' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.reporter | getLabelByIdInArray: listReporter: 'code': 'fullName'}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.assignee' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.assignee | getLabelByIdInArray: listAssignee: 'code': 'fullName'}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.start_date' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.startDate | date: 'dd/MM/yyyy'}}</span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.due_date' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.dueDate | date: 'dd/MM/yyyy'}}</span>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.task_status' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.status | getLabelByIdInArray: listStatus: 'code': (language === 'vi' ? 'name' : 'nameEn')}}</span>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-1">
+                <label class="col-form-label form-control-label font-weight-bolder">
+                  {{'TASK.priortity' | translate}}
+                </label>
+                <div class="mt-1">
+                  <span>{{taskList?.priortity | getLabelByIdInArray: listPriortity: 'code': (language === 'vi' ? 'name' : 'nameEn')}}</span>
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+        </fieldset>
+        <hr>
+        <fieldset class="{{!isCollapsed1 ? 'pb-0' : ''}}">
+            <legend>
+              <span href="javascript: void(0);" >{{'TASK.task_description' | translate}}
+                <!-- <i class="{{isCollapsed1 ? 'fas fa-minus' : 'fas fa-plus'}} ml-1" aria-hidden="true"></i> -->
+              </span>
+            </legend>
+            <div *ngIf="isCollapsed1">
+              <div [innerHTML]="this.description"></div>
+            </div>
+          </fieldset>
+          <hr>
+          <fieldset class="{{!isCollapsed2 ? 'pb-0' : ''}}">
+            <legend>
+              <span >{{'TASK.attachments' | translate}}</span>
+            </legend>
+            <div *ngIf="isCollapsed2">
+              <div *ngIf="!myFiles || myFiles.length <= 0">
+                <p class="text-center align-middle" >{{'PORTAL.no_data' | translate}}</p>
+              </div>
+              <div *ngFor="let item of myFiles" class="mt-1">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="pt-1 attach-file">
+                      <span class="pb-1">{{item.name}}</span>
+                      <span class="pb-1">{{item.nameFile}}</span>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="pt-1">
+                      <span class="pb-1">{{item.size / 1000000}} MB</span>
+                    </div>
+                  </div>
+                  <div class="col-3 text-right">
+                    <div class="row">
+                      <a (click)="downloadFile(item.id, item.nameFile)"  class="btn-download-file mr-1">{{'button.luu' | translate}}</a>
+                      <span class="btn-delete-file text-danger">{{'button.delete' | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </fieldset>
+          <hr>
+          <fieldset class="{{!isCollapsed3 ? 'pb-0' : ''}}">
+            <legend>
+              <span>{{'PORTAL.action' | translate}}
+              </span>
+            </legend>
+            <div *ngIf="isCollapsed3">
+              <mat-tab-group>
+                <mat-tab label="{{'TASK.all_comment' | translate}}"> 
+                  <ul *ngFor="let item of listComment" class="list-group list-group-flush">    
+                    <li class="list-group-item">
+                      <mat-card class="example-card">
+                        <mat-card-header>
+                          <div mat-card-avatar class="example-header-image border border-warning"></div>
+                          <mat-card-title>{{item?.creater | getLabelByIdInArray: listReporter: 'code': 'fullName'}}</mat-card-title>
+                          <mat-card-subtitle>
+                            {{'TASK.add_a_comment' | translate}} - {{item.createDate | date: 'dd/MM/yyyy, h:mm:ss a'}}                    
+                            <span class="text-danger m-cursor mx-1" *ngIf="item?.creater == this.authService.user.userCode"  (click)="deletedComment(item)">
+                              -- <i class="far fa-trash-alt"></i>
+                            </span>
+                            <span class="text-danger m-cursor mx-1" *ngIf="item?.creater == this.authService.user.userCode"  (click)="openCommentModal(item)">
+                              <i class="fas fa-pencil-alt"></i>
+                            </span>
+                          </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div [innerHTML]="item.dataComment"></div>
+                        </mat-card-content>
+                      </mat-card>
+                    </li>
+                  </ul>
+                  <br>
+                  <ul>
+                    <form [formGroup]="form" id="form-1">
+                      <quill-editor  formControlName="dataComment"></quill-editor> <br>
+                    </form>
+                    <button class="btn btn-danger" (click)="createComment()"><i class="fas fa-check mr-1"></i>Send</button>
+                  </ul>
+
+                </mat-tab>
+                <mat-tab label="{{'TASK.history' | translate}}"> Content 2 </mat-tab>
+                <mat-tab label="{{'TASK.billing' | translate}}"> Content 3 </mat-tab>
+              </mat-tab-group>
+            </div>
+          </fieldset>
+          <hr>
+          <fieldset class="{{!isCollapsed4 ? 'pb-0' : ''}}">
+            <legend>
+              <span >{{'TASK.task_link' | translate}}</span>
+            </legend>
+            <div *ngIf="isCollapsed4">
+              <div *ngIf="!listTaskLink || listTaskLink.length <= 0">
+                <p class="text-center align-middle">{{'PORTAL.no_data' | translate}}</p>
+              </div>
+              <!-- <div *ngFor="let item of listTaskLink" class="mt-1">
+                
+              </div> -->
+            </div>
+          </fieldset>
+
+        
+      </div>
+    </div>
